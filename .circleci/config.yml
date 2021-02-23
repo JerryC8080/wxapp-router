@@ -1,0 +1,196 @@
+# Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
+version: 2.1
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:12.18.0
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-.
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: npm install
+      - run: npm run build
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Test And Report
+          command: |
+            npm i tap-xunit ava --save-dev
+            mkdir -p ./reports
+            ./node_modules/.bin/ava --tap | ./node_modules/.bin/tap-xunit > ./reports/ava.xml
+      - store_test_results:
+          path: reports
+      - store_artifacts:
+          path: ./reports/ava.xml
+
+  upload-coveralls:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Test Coverage
+          command: npm run cov
+      - run:
+          name: Report for coveralls
+          command: |
+            npm install coveralls --save-dev
+            ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls
+      - store_artifacts:
+          path: coverage
+
+  build-coverage:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Test Coverage
+          command: npm run cov
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - coverage/*
+
+  build-docs: 
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Build Docs
+          command: npm run doc:html
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - docs/*
+
+  eslint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: ./node_modules/.bin/eslint ./src
+
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Set github email and user
+          command: |
+            git config --global user.email "huangjerryc@gmail.com"
+            git config --global user.name "CircleCI-Robot"
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Update version as patch
+          command: npm run version
+      - run:
+          name: Publish package
+          command: npm publish
+
+  deploy-docs:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Avoid hosts unknown for github
+          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run:
+          name: Set github email and user
+          command: |
+            git config --global user.email "huangjerryc@gmail.com"
+            git config --global user.name "CircleCI-Robot"
+      - run: 
+          name: Show coverage
+          command: ls coverage
+      - run: 
+          name: Show docs
+          command: ls docs
+      - run:
+          name: Copy to docs folder
+          command: |
+            mkdir docs/coverage
+            cp -rf coverage/* docs/coverage
+      - run: 
+          name: Show docs
+          command: ls docs
+      - run:
+          name: Publish to gh-pages
+          command: npm run doc:publish
+
+workflows:
+  build-test-and-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - upload-coveralls:
+          requires:
+            - build
+          filters:
+              branches:
+                only: master
+      - eslint:
+          requires:
+            - build
+      - build-docs:
+          requires:
+            - build
+          filters:
+              branches:
+                only: master
+      - build-coverage:
+          requires:
+            - build
+            - build-docs
+          filters:
+              branches:
+                only: master
+      - deploy-docs:
+          requires:
+            - build
+            - build-docs
+            - build-coverage
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - build
+            - test
+            - eslint
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only: master
+
