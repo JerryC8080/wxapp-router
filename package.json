@@ -1,7 +1,7 @@
 {
   "name": "@jerryc/wxapp-router",
   "version": "0.0.1",
-  "description": "A module seed project",
+  "description": "🛵 The router for Wechat Miniprogram",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
@@ -111,5 +111,9 @@
     "exclude": [
       "**/*.spec.js"
     ]
+  },
+  "dependencies": {
+    "@jerryc/mini-logger": "^0.0.4",
+    "@types/wechat-miniprogram": "^3.2.0"
   }
 }

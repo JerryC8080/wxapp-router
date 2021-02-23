@@ -31,6 +31,9 @@ npm install @jerryc/wxapp-router
 ```typescript
 import { Router } from '@jerryc/wxapp-router';
 
+// 页面参数
+const query = { name: 'jc', age: 18 };
+
 // 创建路由实例
 const router = new Router();
 
