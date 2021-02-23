@@ -40,7 +40,7 @@ router.register<Query>({
   path: '/user/:id', // 虚拟路由
 });
 
-// 智能跳转: redirectTo/navigateTo/navigateBack/switchTab
+// 智能跳转: redirectTo/navigateTo/navigateBack/switchTab
 router.routes.pages.user.go(query);
 
 // 显式跳转
