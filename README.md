@@ -1,4 +1,4 @@
-# Module Seed
+# WxApp Router
 
 [![CircleCI](https://img.shields.io/circleci/build/github/JerryC8080/wxapp-router/master?style=for-the-badge)](https://circleci.com/gh/JerryC8080/wxapp-router/tree/master)
 [![Coveralls github branch](https://img.shields.io/coveralls/github/JerryC8080/wxapp-router/master?style=for-the-badge)](https://coveralls.io/github/JerryC8080/wxapp-router?branch=master)
@@ -105,3 +105,8 @@ router.batchRegister < Querys > routes;
 
 This project is licensed under the [MIT license](LICENSE).  
 Copyright (c) JerryC Huang (huangjerryc@gmail.com)
+
+## TODO
+
+1. 完善单元测试
+2. 增加小程序项目示范

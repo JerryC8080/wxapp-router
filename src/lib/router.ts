@@ -1,4 +1,7 @@
+import logger from './logger';
+import navigator from './navigator';
 import Route from './route';
+import RouteMatcher from './route-matcher';
 import { setter } from './utils';
 
 export interface RegisterOption {
@@ -7,8 +10,8 @@ export interface RegisterOption {
 }
 
 export class Router {
-  private routes: Record<string, unknown>;
-  private virtualPathMap = new Map();
+  private routes: Record<string, unknown> = {};
+  private routeMatchers: Array<RouteMatcher> = [];
 
   public register(option: RegisterOption) {
     const tiers = option.route
@@ -19,7 +22,8 @@ export class Router {
       .join('.');
 
     setter(this.routes, tiers, new Route({ routeUrl: option.route }));
-    if (option.path) this.virtualPathMap.set(option.path, option.route);
+    if (option.path)
+      this.routeMatchers.push(new RouteMatcher(option.path, option.route));
   }
 
   public batchRegister(options) {
@@ -30,9 +34,23 @@ export class Router {
     return this.routes;
   }
 
-  public gotoPage(path, query) {
-    // TODO 解析虚拟路径 path，转换成真实路由 route
-    // TODO 调用 navigator.gotoPage(route, query);
+  public gotoPage(pathOrRoute, query) {
+    const matchResult = this.routeMatchers
+      .map((routeMatcher) => routeMatcher.match(pathOrRoute))
+      .filter((result) => !!result);
+
+    logger.debug('route match result:', { matchResult, pathOrRoute });
+
+    // 优先使用第一个匹配
+    const route = matchResult[0];
+    if (matchResult[0])
+      return navigator.gotoPage(
+        route.route,
+        Object.assign({}, route.query, query)
+      );
+
+    // 否则，尝试直接跳转
+    return navigator.gotoPage(pathOrRoute, query);
   }
 }
 
