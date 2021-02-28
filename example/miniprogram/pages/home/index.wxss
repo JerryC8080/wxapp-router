@@ -9,6 +9,11 @@
   font-size: 28rpx;
 }
 
+.routes-custom-comp {
+  width: 96vw;
+  font-size: 28rpx;
+}
+
 .title {
   margin: 80rpx 0 30rpx;
   font-size: 32rpx;

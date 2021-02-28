@@ -2,11 +2,13 @@
 import { routesConfig } from '../../routes/index';
 
 // 获取应用实例
-const app = getApp<IAppOption>()
+const app = getApp()
 
 Page({
   data: {
     routesConfig,
+    pageAQuery: { name: 'jc' },
+    pageBQuery: { name: 'david' }
   },
   goPageA() {
     app.routes.pages.pageA.go({name:"jc"});

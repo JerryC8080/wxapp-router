@@ -19,9 +19,6 @@
     "pretty": true,
     "strictPropertyInitialization": true,
     "lib": ["es5", "ES2016"],
-    "typeRoots": [
-      "./typings"
-    ]
   },
   "include": [
     "./**/*.ts"

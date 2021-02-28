@@ -19,18 +19,18 @@ export default class RouteMatcher {
     if (!result) return undefined;
 
     const route = this.route;
-    const query = {};
+    const params = {};
 
     // 若存在路由参数，解释
     if (this.keys[0]) {
       this.keys.forEach((key, index) => {
-        query[key.name] = result[index + 1];
+        params[key.name] = result[index + 1];
       });
     }
 
     return {
       route,
-      query,
+      params,
     };
   }
 }

@@ -1,7 +1,7 @@
 import logger from './logger';
 import { obj2Params } from './utils';
 
-interface CommonParams {
+export interface CommonParams {
   path: string | { path: string; type: PathType };
   query?: Record<string, unknown>;
 }
@@ -37,7 +37,7 @@ export class Navigator {
 
   // 智能跳转应用内某页面
   public gotoPage(...arg: [CommonParams['path'], CommonParams['query']]) {
-    const [path, query] = arg;
+    const [path, query = {}] = arg;
     logger.debug('call gotoPage', { path, query });
     const { routerPath } = paramsParsing({ path, query });
 
@@ -65,7 +65,7 @@ export class Navigator {
     return this.navigateTo(...arg);
   }
 
-  public navigateTo(path: CommonParams['path'], query: CommonParams['query']) {
+  public navigateTo(path: CommonParams['path'], query: CommonParams['query'] = {}) {
     if (!this.isClick) return;
     this.isClick = false;
 
@@ -85,7 +85,7 @@ export class Navigator {
     });
   }
 
-  public switchTab(path: CommonParams['path'], query: CommonParams['query']) {
+  public switchTab(path: CommonParams['path'], query: CommonParams['query'] = {}) {
     if (!this.isClick) return;
     this.isClick = false;
 
@@ -105,7 +105,7 @@ export class Navigator {
     });
   }
 
-  public redirectTo(path: CommonParams['path'], query: CommonParams['query']) {
+  public redirectTo(path: CommonParams['path'], query: CommonParams['query'] = {}) {
     if (!this.isClick) return;
     this.isClick = false;
 

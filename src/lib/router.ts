@@ -1,5 +1,5 @@
 import logger from './logger';
-import navigator from './navigator';
+import navigator, { CommonParams } from './navigator';
 import Route from './route';
 import RouteMatcher from './route-matcher';
 import { setter } from './utils';
@@ -34,23 +34,44 @@ export class Router {
     return this.routes;
   }
 
-  public gotoPage(pathOrRoute, query) {
+  private matchRoute(pathOrRoute) {
     const matchResult = this.routeMatchers
-      .map((routeMatcher) => routeMatcher.match(pathOrRoute))
-      .filter((result) => !!result);
+    .map((routeMatcher) => routeMatcher.match(pathOrRoute))
+    .filter((result) => !!result);
 
     logger.debug('route match result:', { matchResult, pathOrRoute });
 
-    // 优先使用第一个匹配
-    const route = matchResult[0];
-    if (matchResult[0])
-      return navigator.gotoPage(
-        route.route,
-        Object.assign({}, route.query, query)
-      );
+    return {
+      path: matchResult[0]?.route || pathOrRoute,
+      params: matchResult[0]?.params || {}
+    }
+  }
 
-    // 否则，尝试直接跳转
-    return navigator.gotoPage(pathOrRoute, query);
+  public gotoPage(pathOrRoute: CommonParams['path'], query: CommonParams['query']) {
+    const { path, params } = this.matchRoute(pathOrRoute);
+    navigator.gotoPage(path, Object.assign({}, params, query));
+  }
+
+  public navigateTo(pathOrRoute: CommonParams['path'], query: CommonParams['query']) {
+    const { path, params } = this.matchRoute(pathOrRoute);
+    navigator.navigateTo(path, Object.assign({}, params, query));
+  }
+
+  public switchTab(pathOrRoute: CommonParams['path'], query: CommonParams['query']) {
+    const { path, params } = this.matchRoute(pathOrRoute);
+    navigator.switchTab(path, Object.assign({}, params, query));
+  }
+
+  public redirectTo(pathOrRoute: CommonParams['path'], query: CommonParams['query']) {
+    const { path, params } = this.matchRoute(pathOrRoute);
+    navigator.redirectTo(path, Object.assign({}, params, query));
+  }
+
+  public navigateBack(
+    query: WechatMiniprogram.NavigateBackOption,
+    option?: { setData: Record<string, unknown> }
+    ) {
+    navigator.navigateBack(query, option);
   }
 }
 

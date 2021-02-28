@@ -1,6 +1,6 @@
 import router from './routes/index';
 
-App<IAppOption>({
+App({
   router,
   routes: router.getRoutes(),
 })

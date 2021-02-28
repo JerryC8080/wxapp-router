@@ -10,7 +10,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "@jerryc/wxapp-router": "^0.0.1"
+    "@jerryc/wxapp-router": "^0.0.6"
   },
   "devDependencies": {
     "miniprogram-api-typings": "^2.8.3-1",

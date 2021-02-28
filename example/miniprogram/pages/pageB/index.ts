@@ -1,8 +1,9 @@
 Page({
   data: {
-    pageName: 'page B'
+    pageName: 'page B',
+    backSetData: { calledFrom: 'pageB' },
   },
-  onLoad(query) {
+  onLoad(query: any) {
     this.setData({query: JSON.stringify(query)})
   }
 })

@@ -22,6 +22,6 @@ test('RouteMatcher', (t) => {
     const matcher = new RouteMatcher(testCase.path, testCase.route);
     const result = matcher.match(testCase.url);
     t.is(result.route, testCase.route);
-    t.deepEqual(result.query, testCase.exceptQuery);
+    t.deepEqual(result.params, testCase.exceptQuery);
   });
 });

@@ -4,4 +4,8 @@
     <view class="user-motto">I am {{pageName}}</view>
     <view class="user-motto">query is : {{query}}</view>
   </view>
+
+  <Router type="navigateBack" setData="{{backSetData}}">
+    <button class="buttons">NavigateBack</button>
+  </Router>
 </view>

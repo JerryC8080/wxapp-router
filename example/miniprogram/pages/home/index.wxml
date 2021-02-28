@@ -1,5 +1,7 @@
 <!--index.wxml-->
 <view class="container">
+  <view wx:if="{{calledFrom}}" class="title">navigate back from: {{calledFrom}}</view>
+
   <view class="routes-config">
     <view class="title">Routes Config</view>
     <view class="config-item" wx:for="{{routesConfig}}">
@@ -12,6 +14,13 @@
     <button class="buttons" bindtap="goPageA">routes.pages.pageA.go({name:"jc"})</button>
     <button class="buttons" bindtap="goPageB">routes.pages.pageB.go({name:"david"})</button>
     <button class="buttons" bindtap="goPageC">router.gotoPage('/pageC/katy',{age: 18})</button>
+  </view>
+
+    <view class="routes-custom-comp">
+    <view class="title">{{"<Router />"}}</view>
+    <Router path="/pageA" query="{{pageAQuery}}"><button class="buttons">path="/pageA", query="{name: 'jc'}"</button></Router>
+    <Router path="/pageB" query="{{pageBQuery}}" type="redirectTo"><button class="buttons">path="/pageB", query="{name: 'david'}, type="redirectTo"</button></Router>
+    <Router path="/pageC/katy"><button class="buttons">path="/pageC/katy"</button></Router>
   </view>
 
 </view>
