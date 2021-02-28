@@ -11,3 +11,4 @@ tsconfig.module.json
 .vscode
 .github
 docs
+examples

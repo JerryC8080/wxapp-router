@@ -1,0 +1,17 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="routes-config">
+    <view class="title">Routes Config</view>
+    <view class="config-item" wx:for="{{routesConfig}}">
+      {path: '{{item.path}}',route: '{{item.route}}'},
+    </view>
+  </view>
+
+  <view class="routes-navigate">
+    <view class="title">Route Navigate</view>
+    <button class="buttons" bindtap="goPageA">routes.pages.pageA.go({name:"jc"})</button>
+    <button class="buttons" bindtap="goPageB">routes.pages.pageB.go({name:"david"})</button>
+    <button class="buttons" bindtap="goPageC">router.gotoPage('/pageC/katy',{age: 18})</button>
+  </view>
+
+</view>

@@ -1,0 +1,20 @@
+.buttons {
+  width: 96vw !important;
+  margin: 10rpx 0;
+  padding: 8px;
+}
+
+.routes-config {
+  width: 96vw;
+  font-size: 28rpx;
+}
+
+.title {
+  margin: 80rpx 0 30rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.config-item {
+  margin: 8rpx 0;
+}

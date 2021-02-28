@@ -108,5 +108,6 @@ Copyright (c) JerryC Huang (huangjerryc@gmail.com)
 
 ## TODO
 
-1. 完善单元测试
-2. 增加小程序项目示范
+1. 增加小程序项目示范
+2. <GotoPage /> 开发
+3. 让 routes 支持 typescript

@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/pageA/index",
+    "pages/pageB/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WxApp Router Example",
+    "navigationBarTextStyle": "black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
