@@ -110,5 +110,6 @@ Copyright (c) JerryC Huang (huangjerryc@gmail.com)
 
 - [ ] routes 支持 TS 层次联想，例如：routes.pages.a.go();
 - [ ] 页面入参的 TS 类型支持，例如：routes.pages.a.go(query: QueryType);
+- [ ] 支持底层替换跳转引擎，以支持小程序框架的路由跳转替换，或者其他跨端需求；
 - [ ] 自动化启动
 - [ ] 文档重构
