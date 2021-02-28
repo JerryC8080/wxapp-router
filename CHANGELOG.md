@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/JerryC8080/wxapp-router/compare/v0.0.6...v0.0.8) (2021-02-28)
+
+
+### Features
+
+* add examples ([403bb58](https://github.com/JerryC8080/wxapp-router/commit/403bb586a0065c94e706ecdb3aa64f27ed05a0db))
+* add examples ([becf81d](https://github.com/JerryC8080/wxapp-router/commit/becf81d7f2975aeb833c1bd8c232d92a2192cb8d))
+
 ### [0.0.6](https://github.com/JerryC8080/wxapp-router/compare/v0.0.4...v0.0.6) (2021-02-28)
 
 ### [0.0.4](https://github.com/JerryC8080/wxapp-router/compare/v0.0.2...v0.0.4) (2021-02-28)
