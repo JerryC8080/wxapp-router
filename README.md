@@ -108,7 +108,7 @@ Copyright (c) JerryC Huang (huangjerryc@gmail.com)
 
 ## TODO
 
-1. 增加小程序项目示范
-2. <Router /> 开发
-3. 让 routes 支持 typescript
-4. 让 router.register 支持范式确定页面的入参
+- [ ] routes 支持 TS 层次联想，例如：routes.pages.a.go();
+- [ ] 页面入参的 TS 类型支持，例如：routes.pages.a.go(query: QueryType);
+- [ ] 自动化启动
+- [ ] 文档重构
