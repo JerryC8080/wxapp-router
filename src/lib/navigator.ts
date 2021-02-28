@@ -175,6 +175,6 @@ export class Navigator {
   }
 }
 
-const navigator = new Navigator();
+export const navigator = new Navigator();
 
 export default navigator;

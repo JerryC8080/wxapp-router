@@ -67,12 +67,12 @@ router.gotoRealPage('/pages/user/index', query);
 **使用自定义组件跳转**
 
 ```html
-<GotoPage path="/user/123" />
-<GotoPage route="/pages/user/index" />
-<GotoPage path="/user/123" type="navigateTo" />
-<GotoPage path="/user/123" type="redirectTo" />
-<GotoPage path="/user/123" type="navigateBack" />
-<GotoPage path="/user/123" type="switchTab" />
+<Router path="/user/123" />
+<Router route="/pages/user/index" />
+<Router path="/user/123" type="navigateTo" />
+<Router path="/user/123" type="redirectTo" />
+<Router path="/user/123" type="navigateBack" />
+<Router path="/user/123" type="switchTab" />
 ```
 
 **批量注册**
@@ -109,5 +109,6 @@ Copyright (c) JerryC Huang (huangjerryc@gmail.com)
 ## TODO
 
 1. 增加小程序项目示范
-2. <GotoPage /> 开发
+2. <Router /> 开发
 3. 让 routes 支持 typescript
+4. 让 router.register 支持范式确定页面的入参
