@@ -1,0 +1,257 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@jerryc/wxapp-router</title>
+	<meta name="description" content="Documentation for @jerryc/wxapp-router">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@jerryc/wxapp-router</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>@jerryc/wxapp-router</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#wxapp-router" id="wxapp-router" style="color: inherit; text-decoration: none;">
+					<h1>WxApp Router</h1>
+				</a>
+				<p><a href="https://circleci.com/gh/JerryC8080/wxapp-router/tree/master"><img src="https://img.shields.io/circleci/build/github/JerryC8080/wxapp-router/master?style=for-the-badge" alt="CircleCI"></a>
+					<a href="https://coveralls.io/github/JerryC8080/wxapp-router?branch=master"><img src="https://img.shields.io/coveralls/github/JerryC8080/wxapp-router/master?style=for-the-badge" alt="Coveralls github branch"></a>
+					<a href="https://www.npmjs.com/package/@jerryc/wxapp-router"><img src="https://img.shields.io/npm/v/@jerryc/wxapp-router.svg?style=for-the-badge" alt="NPM Version"></a>
+					<a href="https://www.npmjs.com/package/@jerryc/wxapp-router"><img src="https://img.shields.io/npm/dm/@jerryc/wxapp-router.svg?style=for-the-badge" alt="NPM Downloads"></a>
+				<img src="https://img.shields.io/bundlephobia/minzip/@jerryc/mini-logger.svg?style=for-the-badge" alt="npm bundle size"></p>
+				<a href="#motivation" id="motivation" style="color: inherit; text-decoration: none;">
+					<h2>Motivation</h2>
+				</a>
+				<p>对于微信小程序原生路由：</p>
+				<ol>
+					<li>写代码，要显式判断情况，然后使用不同的 wx.xxx</li>
+					<li>真实路由，通过小程序二维码等方式暴露出去之后，要修改项目结构处理历史问题。</li>
+					<li>十层级路由问题、页面死循环问题。</li>
+					<li>小程序无限二维码解决方案。（短链参数解析）</li>
+				</ol>
+				<a href="#feature" id="feature" style="color: inherit; text-decoration: none;">
+					<h2>Feature</h2>
+				</a>
+				<ol>
+					<li>...</li>
+					<li>...</li>
+				</ol>
+				<a href="#download" id="download" style="color: inherit; text-decoration: none;">
+					<h2>Download</h2>
+				</a>
+				<pre><code class="language-shell">npm install @jerryc/wxapp-router
+</code></pre>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jerryc/wxapp-router&#x27;</span>;
+
+<span class="hljs-comment">// 页面参数</span>
+<span class="hljs-keyword">const</span> query = { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">18</span> };
+
+<span class="hljs-comment">// 创建路由实例</span>
+<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
+
+<span class="hljs-comment">// 注册路由</span>
+router.register&lt;Query&gt;({
+  <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, <span class="hljs-comment">// 真实路径</span>
+  <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user/:id&#x27;</span>, <span class="hljs-comment">// 虚拟路由</span>
+});
+
+<span class="hljs-comment">// 智能跳转: redirectTo/navigateTo/navigateBack/switchTab</span>
+router.routes.pages.user.go(query);
+
+<span class="hljs-comment">// 显式跳转</span>
+router.routes.pages.user.redirectTo(query);
+router.routes.pages.user.navigateTo(query);
+router.routes.pages.user.navigateBack(query);
+router.routes.pages.user.switchTab(query);
+
+<span class="hljs-comment">// 获取 routes，以方便挂载到 app 实例中，使路由跳转更加优雅。</span>
+<span class="hljs-keyword">const</span> routes = router.getRoutes();
+routes.pages.user.go(query);
+
+<span class="hljs-comment">// 智能路由跳转，优先级：虚拟路由 &gt; 真实路由</span>
+router.gotoPage(<span class="hljs-string">&#x27;/user/123&#x27;</span>, query);
+router.gotoPage(<span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, query);
+
+<span class="hljs-comment">// 显式真实路由跳转</span>
+router.gotoRealPage(<span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, query);
+</code></pre>
+				<p><strong>使用自定义组件跳转</strong></p>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/user/123&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">route</span>=<span class="hljs-string">&quot;/pages/user/index&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/user/123&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;navigateTo&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/user/123&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;redirectTo&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/user/123&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;navigateBack&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/user/123&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;switchTab&quot;</span> /&gt;</span>
+</code></pre>
+				<p><strong>批量注册</strong></p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jerryc/wxapp-router&#x27;</span>;
+
+<span class="hljs-comment">// 创建路由实例</span>
+<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
+
+<span class="hljs-keyword">const</span> routes = [
+  {
+    <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/user/index&#x27;</span>,
+    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user/:id&#x27;</span>,
+  },
+  {
+    <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/home/index&#x27;</span>,
+    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/home&#x27;</span>,
+  },
+];
+
+<span class="hljs-keyword">const</span> querys: [UserQuery, HomeQuery];
+<span class="hljs-keyword">type</span> Query = <span class="hljs-keyword">typeof</span> querys;
+
+<span class="hljs-comment">// 注册路由</span>
+router.batchRegister &lt; Querys &gt; routes;
+</code></pre>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
+				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#x75;&#97;&#x6e;&#x67;&#x6a;&#101;&#114;&#114;&#121;&#99;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#x68;&#x75;&#97;&#x6e;&#x67;&#x6a;&#101;&#114;&#114;&#121;&#99;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#x6d;</a>)</p>
+				<a href="#todo" id="todo" style="color: inherit; text-decoration: none;">
+					<h2>TODO</h2>
+				</a>
+				<ul>
+					<li><input disabled="" type="checkbox"> routes 支持 TS 层次联想，例如：routes.pages.a.go();</li>
+					<li><input disabled="" type="checkbox"> 页面入参的 TS 类型支持，例如：routes.pages.a.go(query: QueryType);</li>
+					<li><input disabled="" type="checkbox"> 支持底层替换跳转引擎，以支持小程序框架的路由跳转替换，或者其他跨端需求；</li>
+					<li><input disabled="" type="checkbox"> 自动化启动</li>
+					<li><input disabled="" type="checkbox"> 文档重构</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/pathtype.html" class="tsd-kind-icon">Path<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/navigator.html" class="tsd-kind-icon">Navigator</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/route.html" class="tsd-kind-icon">Route</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/routematcher.html" class="tsd-kind-icon">Route<wbr>Matcher</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/router.html" class="tsd-kind-icon">Router</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/commonparams.html" class="tsd-kind-icon">Common<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/registeroption.html" class="tsd-kind-icon">Register<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#logger" class="tsd-kind-icon">logger</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#navigator" class="tsd-kind-icon">navigator</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#obj2params" class="tsd-kind-icon">obj2<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#paramsparsing" class="tsd-kind-icon">params<wbr>Parsing</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#setter" class="tsd-kind-icon">setter</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
