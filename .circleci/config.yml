@@ -110,7 +110,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
           name: Update version as patch
-          command: npm run version
+          command: npm run version && git push
       - run:
           name: Publish package
           command: npm publish
