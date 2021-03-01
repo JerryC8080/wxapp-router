@@ -36,42 +36,54 @@ export class Router {
 
   private matchRoute(pathOrRoute) {
     const matchResult = this.routeMatchers
-    .map((routeMatcher) => routeMatcher.match(pathOrRoute))
-    .filter((result) => !!result);
+      .map((routeMatcher) => routeMatcher.match(pathOrRoute))
+      .filter((result) => !!result);
 
     logger.debug('route match result:', { matchResult, pathOrRoute });
 
     return {
       path: matchResult[0]?.route || pathOrRoute,
-      params: matchResult[0]?.params || {}
-    }
+      params: matchResult[0]?.params || {},
+    };
   }
 
-  public gotoPage(pathOrRoute: CommonParams['path'], query: CommonParams['query']) {
+  public gotoPage(
+    pathOrRoute: CommonParams['path'],
+    query: CommonParams['query']
+  ) {
     const { path, params } = this.matchRoute(pathOrRoute);
-    navigator.gotoPage(path, Object.assign({}, params, query));
+    return navigator.gotoPage(path, Object.assign({}, params, query));
   }
 
-  public navigateTo(pathOrRoute: CommonParams['path'], query: CommonParams['query']) {
+  public navigateTo(
+    pathOrRoute: CommonParams['path'],
+    query: CommonParams['query']
+  ) {
     const { path, params } = this.matchRoute(pathOrRoute);
-    navigator.navigateTo(path, Object.assign({}, params, query));
+    return navigator.navigateTo(path, Object.assign({}, params, query));
   }
 
-  public switchTab(pathOrRoute: CommonParams['path'], query: CommonParams['query']) {
+  public switchTab(
+    pathOrRoute: CommonParams['path'],
+    query: CommonParams['query']
+  ) {
     const { path, params } = this.matchRoute(pathOrRoute);
-    navigator.switchTab(path, Object.assign({}, params, query));
+    return navigator.switchTab(path, Object.assign({}, params, query));
   }
 
-  public redirectTo(pathOrRoute: CommonParams['path'], query: CommonParams['query']) {
+  public redirectTo(
+    pathOrRoute: CommonParams['path'],
+    query: CommonParams['query']
+  ) {
     const { path, params } = this.matchRoute(pathOrRoute);
-    navigator.redirectTo(path, Object.assign({}, params, query));
+    return navigator.redirectTo(path, Object.assign({}, params, query));
   }
 
   public navigateBack(
     query: WechatMiniprogram.NavigateBackOption,
     option?: { setData: Record<string, unknown> }
-    ) {
-    navigator.navigateBack(query, option);
+  ) {
+    return navigator.navigateBack(query, option);
   }
 }
 

@@ -12,7 +12,7 @@ test.before(async () => {
   rewiremock.enable();
 });
 
-test.only('Router', (t) => {
+test('Router', (t) => {
   const router = new Router();
 
   const routesOption = [

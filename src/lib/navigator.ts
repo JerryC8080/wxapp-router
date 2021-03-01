@@ -65,7 +65,10 @@ export class Navigator {
     return this.navigateTo(...arg);
   }
 
-  public navigateTo(path: CommonParams['path'], query: CommonParams['query'] = {}) {
+  public navigateTo(
+    path: CommonParams['path'],
+    query: CommonParams['query'] = {}
+  ) {
     if (!this.isClick) return;
     this.isClick = false;
 
@@ -85,7 +88,10 @@ export class Navigator {
     });
   }
 
-  public switchTab(path: CommonParams['path'], query: CommonParams['query'] = {}) {
+  public switchTab(
+    path: CommonParams['path'],
+    query: CommonParams['query'] = {}
+  ) {
     if (!this.isClick) return;
     this.isClick = false;
 
@@ -105,7 +111,10 @@ export class Navigator {
     });
   }
 
-  public redirectTo(path: CommonParams['path'], query: CommonParams['query'] = {}) {
+  public redirectTo(
+    path: CommonParams['path'],
+    query: CommonParams['query'] = {}
+  ) {
     if (!this.isClick) return;
     this.isClick = false;
 
