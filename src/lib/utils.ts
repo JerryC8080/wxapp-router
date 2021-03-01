@@ -1,4 +1,4 @@
-export const setter = (obj, key, value) => {
+export const setter = <ValueType>(obj, key, value: ValueType) => {
   const keys = key.split('.');
   const pres = keys.slice(0, -1);
   const last = keys[keys.length - 1];

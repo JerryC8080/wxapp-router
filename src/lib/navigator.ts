@@ -3,7 +3,7 @@ import { obj2Params } from './utils';
 
 export interface CommonParams {
   path: string | { path: string; type: PathType };
-  query?: Record<string, unknown>;
+  query?: any;
 }
 
 const paramsParsing = (commonParams: CommonParams) => {

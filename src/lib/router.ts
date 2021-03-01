@@ -10,10 +10,10 @@ export interface RegisterOption {
 }
 
 export class Router {
-  private routes: Record<string, unknown> = {};
+  private routes = {};
   private routeMatchers: Array<RouteMatcher> = [];
 
-  public register(option: RegisterOption) {
+  public register<QueryType>(option: RegisterOption) {
     const tiers = option.route
       .replace(/^\//, '')
       .replace(/$\//, '')
@@ -21,7 +21,11 @@ export class Router {
       .slice(0, -1)
       .join('.');
 
-    setter(this.routes, tiers, new Route({ routeUrl: option.route }));
+    setter<Route<QueryType>>(
+      this.routes,
+      tiers,
+      new Route<QueryType>({ routeUrl: option.route })
+    );
     if (option.path)
       this.routeMatchers.push(new RouteMatcher(option.path, option.route));
   }
