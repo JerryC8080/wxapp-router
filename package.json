@@ -1,6 +1,6 @@
 {
   "name": "@jerryc/wxapp-router",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "description": "🛵 The router for Wechat Miniprogram",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
