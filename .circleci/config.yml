@@ -113,7 +113,10 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
           name: Update version as patch
-          command: npm run version && git push
+          command: npm run version
+      - run:
+          name: Git push by skip ci build
+          command: git commit -m '[skip ci]' --allow-empty && git push
       - run:
           name: Publish package
           command: npm publish
