@@ -78,94 +78,81 @@
 				<p>对于微信小程序原生路由：</p>
 				<ol>
 					<li>写代码，要显式判断情况，然后使用不同的 wx.xxx</li>
-					<li>真实路由，通过小程序二维码等方式暴露出去之后，要修改项目结构处理历史问题。</li>
-					<li>十层级路由问题、页面死循环问题。</li>
+					<li>暴露真实路由，通过小程序二维码等方式暴露出去的路径，不利于修改项目结构。</li>
+					<li>微信路由十层级路由问题、页面死循环问题。</li>
 					<li>小程序无限二维码解决方案。（短链参数解析）</li>
 				</ol>
 				<a href="#feature" id="feature" style="color: inherit; text-decoration: none;">
 					<h2>Feature</h2>
 				</a>
 				<ol>
-					<li>...</li>
-					<li>...</li>
+					<li>虚拟路由，解决小程序对外暴露真实路径的问题。</li>
+					<li>动态路由参数。</li>
+					<li>智能跳转，解决小程序页面栈十层限制问题，与解决小程序页面死循环问题</li>
 				</ol>
 				<a href="#download" id="download" style="color: inherit; text-decoration: none;">
 					<h2>Download</h2>
 				</a>
 				<pre><code class="language-shell">npm install @jerryc/wxapp-router
 </code></pre>
-				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-					<h2>Usage</h2>
+				<a href="#quick-usage" id="quick-usage" style="color: inherit; text-decoration: none;">
+					<h2>Quick Usage</h2>
 				</a>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jerryc/wxapp-router&#x27;</span>;
-
-<span class="hljs-comment">// 页面参数</span>
-<span class="hljs-keyword">const</span> query = { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">18</span> };
 
 <span class="hljs-comment">// 创建路由实例</span>
 <span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
 
 <span class="hljs-comment">// 注册路由</span>
-router.register&lt;Query&gt;({
-  <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, <span class="hljs-comment">// 真实路径</span>
+router.register({
+  <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, <span class="hljs-comment">// 真实路由</span>
   <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user/:id&#x27;</span>, <span class="hljs-comment">// 虚拟路由</span>
 });
 
-<span class="hljs-comment">// 智能跳转: redirectTo/navigateTo/navigateBack/switchTab</span>
-router.routes.pages.user.go(query);
+<span class="hljs-keyword">const</span> query = { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">18</span> };
+
+<span class="hljs-comment">// 智能跳转</span>
+router.gotoPage(<span class="hljs-string">&#x27;/user/123&#x27;</span>, query);
+<span class="hljs-comment">// 跳转到 /pages/user/index</span>
+<span class="hljs-comment">// onLoad(options) 中 options = {name: &#x27;jc&#x27;, age: 18, id: &#x27;123&#x27;};</span>
 
 <span class="hljs-comment">// 显式跳转</span>
-router.routes.pages.user.redirectTo(query);
-router.routes.pages.user.navigateTo(query);
-router.routes.pages.user.navigateBack(query);
-router.routes.pages.user.switchTab(query);
-
-<span class="hljs-comment">// 获取 routes，以方便挂载到 app 实例中，使路由跳转更加优雅。</span>
-<span class="hljs-keyword">const</span> routes = router.getRoutes();
-routes.pages.user.go(query);
-
-<span class="hljs-comment">// 智能路由跳转，优先级：虚拟路由 &gt; 真实路由</span>
-router.gotoPage(<span class="hljs-string">&#x27;/user/123&#x27;</span>, query);
-router.gotoPage(<span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, query);
-
-<span class="hljs-comment">// 显式真实路由跳转</span>
-router.gotoRealPage(<span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, query);
+router.redirectTo(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query);
+router.navigateTo(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query);
+router.navigateBack(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query);
+router.switchTab(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query);
 </code></pre>
-				<p><strong>使用自定义组件跳转</strong></p>
-				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/user/123&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">route</span>=<span class="hljs-string">&quot;/pages/user/index&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/user/123&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;navigateTo&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/user/123&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;redirectTo&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/user/123&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;navigateBack&quot;</span> /&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/user/123&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;switchTab&quot;</span> /&gt;</span>
-</code></pre>
-				<p><strong>批量注册</strong></p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jerryc/wxapp-router&#x27;</span>;
-
-<span class="hljs-comment">// 创建路由实例</span>
-<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
-
-<span class="hljs-keyword">const</span> routes = [
-  {
-    <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/user/index&#x27;</span>,
-    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user/:id&#x27;</span>,
-  },
-  {
-    <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/home/index&#x27;</span>,
-    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/home&#x27;</span>,
-  },
-];
-
-<span class="hljs-keyword">const</span> querys: [UserQuery, HomeQuery];
-<span class="hljs-keyword">type</span> Query = <span class="hljs-keyword">typeof</span> querys;
-
-<span class="hljs-comment">// 注册路由</span>
-router.batchRegister &lt; Querys &gt; routes;
-</code></pre>
+				<a href="#智能跳转策略" id="智能跳转策略" style="color: inherit; text-decoration: none;">
+					<h2>智能跳转策略</h2>
+				</a>
+				<a href="#动态路由参数" id="动态路由参数" style="color: inherit; text-decoration: none;">
+					<h2>动态路由参数</h2>
+				</a>
+				<a href="#虚拟路由-amp-落地中转策略" id="虚拟路由-amp-落地中转策略" style="color: inherit; text-decoration: none;">
+					<h2>虚拟路由 &amp; 落地中转策略</h2>
+				</a>
+				<a href="#导航器-navigator" id="导航器-navigator" style="color: inherit; text-decoration: none;">
+					<h2>导航器 Navigator</h2>
+				</a>
+				<a href="#使用自定义组件跳转" id="使用自定义组件跳转" style="color: inherit; text-decoration: none;">
+					<h2>使用自定义组件跳转</h2>
+				</a>
+				<a href="#内部路由策略" id="内部路由策略" style="color: inherit; text-decoration: none;">
+					<h2>内部路由策略</h2>
+				</a>
+				<a href="#如何组织项目" id="如何组织项目" style="color: inherit; text-decoration: none;">
+					<h2>如何组织项目</h2>
+				</a>
+				<a href="#通过替换跳转引擎，以支持-tarojs" id="通过替换跳转引擎，以支持-tarojs" style="color: inherit; text-decoration: none;">
+					<h2>通过替换跳转引擎，以支持 TaroJS</h2>
+				</a>
+				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
+					<h2>API</h2>
+				</a>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
-				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#x75;&#97;&#110;&#103;&#x6a;&#101;&#114;&#x72;&#121;&#x63;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#99;&#x6f;&#x6d;">&#x68;&#x75;&#97;&#110;&#103;&#x6a;&#101;&#114;&#x72;&#121;&#x63;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#99;&#x6f;&#x6d;</a>)</p>
+				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#117;&#97;&#110;&#103;&#x6a;&#101;&#x72;&#114;&#121;&#x63;&#x40;&#x67;&#109;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#x68;&#117;&#97;&#110;&#103;&#x6a;&#101;&#x72;&#114;&#121;&#x63;&#x40;&#x67;&#109;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;</a>)</p>
 				<a href="#todo" id="todo" style="color: inherit; text-decoration: none;">
 					<h2>TODO</h2>
 				</a>
