@@ -6,7 +6,11 @@
 [![NPM Downloads](https://img.shields.io/npm/dm/@jerryc/wxapp-router.svg?style=for-the-badge)](https://www.npmjs.com/package/@jerryc/wxapp-router)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@jerryc/mini-logger.svg?style=for-the-badge)
 
-## Motivation
+<p align="center">
+  <img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20210302174607.svg" width=400 />
+</p>
+
+## 动机
 
 对于微信小程序原生路由：
 
@@ -15,19 +19,21 @@
 3. 微信路由十层级路由问题、页面死循环问题。
 4. 小程序无限二维码解决方案。（短链参数解析）
 
-## Feature
+## 介绍
 
 1. 虚拟路由，解决小程序对外暴露真实路径的问题。
 1. 动态路由参数。
 1. 智能跳转，解决小程序页面栈十层限制问题，与解决小程序页面死循环问题
 
-## Download
+## 下载
 
 ```shell
 npm install @jerryc/wxapp-router
 ```
 
-## Quick Usage
+## 使用说明
+
+### 快速使用
 
 ```typescript
 import { Router } from '@jerryc/wxapp-router';
@@ -55,35 +61,31 @@ router.navigateBack('/user/:123', query);
 router.switchTab('/user/:123', query);
 ```
 
-## 智能跳转策略
+### 智能跳转策略
 
-## 动态路由参数
+### 动态路由参数
 
-## 虚拟路由 & 落地中转策略
+### 外部路由策略：虚拟路由 & 落地中转策略
 
-## 导航器 Navigator
+### 内部路由策略：体验更加的调用方式
 
-## 使用自定义组件跳转
+### 使用自定义组件跳转
 
-## 内部路由策略
+### TypeScript 支持
 
-## TypeScript
+### 如何组织项目
 
-## 如何组织项目
+### 导航器 Navigator
 
-## 通过替换跳转引擎，以支持 TaroJS
+### 通过替换跳转引擎，以支持 TaroJS
+
+## 架构设计
 
 ## API
+
+详见官网：[wxapp-router](https://jerryc8080.github.io/wxapp-router/)
 
 ## License
 
 This project is licensed under the [MIT license](LICENSE).  
 Copyright (c) JerryC Huang (huangjerryc@gmail.com)
-
-## TODO
-
-- [ ] routes 支持 TS 层次联想，例如：routes.pages.a.go();
-- [ ] 页面入参的 TS 类型支持，例如：routes.pages.a.go(query: QueryType);
-- [ ] 支持底层替换跳转引擎，以支持小程序框架的路由跳转替换，或者其他跨端需求；
-- [ ] 自动化启动
-- [ ] 文档重构
