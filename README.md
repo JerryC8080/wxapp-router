@@ -67,6 +67,8 @@ router.switchTab('/user/:123', query);
 
 ## 内部路由策略
 
+## TypeScript
+
 ## 如何组织项目
 
 ## 通过替换跳转引擎，以支持 TaroJS

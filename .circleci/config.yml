@@ -101,6 +101,9 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run:
+          name: Avoid hosts unknown for github
+          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run:
           name: Set github email and user
           command: |
             git config --global user.email "huangjerryc@gmail.com"
