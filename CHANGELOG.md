@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.21 (2021-03-02)
+
+
+### Features
+
+* add <Router /> ([b976ba7](https://github.com/JerryC8080/wxapp-router/commit/b976ba756dd5e6570bfd3f76aeb48f989118589f))
+* add examples ([403bb58](https://github.com/JerryC8080/wxapp-router/commit/403bb586a0065c94e706ecdb3aa64f27ed05a0db))
+* add examples ([becf81d](https://github.com/JerryC8080/wxapp-router/commit/becf81d7f2975aeb833c1bd8c232d92a2192cb8d))
+* add examples ([2caf7fe](https://github.com/JerryC8080/wxapp-router/commit/2caf7fea6112a9817a22f50ad8a6c9405f6d0c34))
+* add route class and navigator class ([1e46849](https://github.com/JerryC8080/wxapp-router/commit/1e468496bd04bd8c2f4398ed23561c8d8c82fa62))
+* add unit test ([510c321](https://github.com/JerryC8080/wxapp-router/commit/510c3211f768a0d35e75d8b8b70079d1740306a9))
+* finished router and add unit test ([36b3454](https://github.com/JerryC8080/wxapp-router/commit/36b34542b1785c3153bce854cef86273b7f52f45))
+* update circleci config ([f2f3ba4](https://github.com/JerryC8080/wxapp-router/commit/f2f3ba47686fc9bde34063111904d90fb1af1d5e))
+* update type ([bda8efe](https://github.com/JerryC8080/wxapp-router/commit/bda8efe6bac93529719b350f81c2b7268d963096))
+
+
+### Bug Fixes
+
+* fix unit test ([8d4f3d4](https://github.com/JerryC8080/wxapp-router/commit/8d4f3d48a0e80dc22fe3437bfdac04e89603e099))
+
 ### 0.0.20 (2021-03-02)
 
 
