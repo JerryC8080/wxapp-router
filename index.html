@@ -72,8 +72,11 @@
 					<a href="https://www.npmjs.com/package/@jerryc/wxapp-router"><img src="https://img.shields.io/npm/v/@jerryc/wxapp-router.svg?style=for-the-badge" alt="NPM Version"></a>
 					<a href="https://www.npmjs.com/package/@jerryc/wxapp-router"><img src="https://img.shields.io/npm/dm/@jerryc/wxapp-router.svg?style=for-the-badge" alt="NPM Downloads"></a>
 				<img src="https://img.shields.io/bundlephobia/minzip/@jerryc/mini-logger.svg?style=for-the-badge" alt="npm bundle size"></p>
-				<a href="#motivation" id="motivation" style="color: inherit; text-decoration: none;">
-					<h2>Motivation</h2>
+				<p align="center">
+					<img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20210302174607.svg" width=400 />
+				</p>
+				<a href="#动机" id="动机" style="color: inherit; text-decoration: none;">
+					<h2>动机</h2>
 				</a>
 				<p>对于微信小程序原生路由：</p>
 				<ol>
@@ -82,21 +85,24 @@
 					<li>微信路由十层级路由问题、页面死循环问题。</li>
 					<li>小程序无限二维码解决方案。（短链参数解析）</li>
 				</ol>
-				<a href="#feature" id="feature" style="color: inherit; text-decoration: none;">
-					<h2>Feature</h2>
+				<a href="#介绍" id="介绍" style="color: inherit; text-decoration: none;">
+					<h2>介绍</h2>
 				</a>
 				<ol>
 					<li>虚拟路由，解决小程序对外暴露真实路径的问题。</li>
 					<li>动态路由参数。</li>
 					<li>智能跳转，解决小程序页面栈十层限制问题，与解决小程序页面死循环问题</li>
 				</ol>
-				<a href="#download" id="download" style="color: inherit; text-decoration: none;">
-					<h2>Download</h2>
+				<a href="#下载" id="下载" style="color: inherit; text-decoration: none;">
+					<h2>下载</h2>
 				</a>
 				<pre><code class="language-shell">npm install @jerryc/wxapp-router
 </code></pre>
-				<a href="#quick-usage" id="quick-usage" style="color: inherit; text-decoration: none;">
-					<h2>Quick Usage</h2>
+				<a href="#使用说明" id="使用说明" style="color: inherit; text-decoration: none;">
+					<h2>使用说明</h2>
+				</a>
+				<a href="#快速使用" id="快速使用" style="color: inherit; text-decoration: none;">
+					<h3>快速使用</h3>
 				</a>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jerryc/wxapp-router&#x27;</span>;
 
@@ -123,49 +129,43 @@ router.navigateBack(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, que
 router.switchTab(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query);
 </code></pre>
 				<a href="#智能跳转策略" id="智能跳转策略" style="color: inherit; text-decoration: none;">
-					<h2>智能跳转策略</h2>
+					<h3>智能跳转策略</h3>
 				</a>
 				<a href="#动态路由参数" id="动态路由参数" style="color: inherit; text-decoration: none;">
-					<h2>动态路由参数</h2>
+					<h3>动态路由参数</h3>
 				</a>
-				<a href="#虚拟路由-amp-落地中转策略" id="虚拟路由-amp-落地中转策略" style="color: inherit; text-decoration: none;">
-					<h2>虚拟路由 &amp; 落地中转策略</h2>
+				<a href="#外部路由策略：虚拟路由-amp-落地中转策略" id="外部路由策略：虚拟路由-amp-落地中转策略" style="color: inherit; text-decoration: none;">
+					<h3>外部路由策略：虚拟路由 &amp; 落地中转策略</h3>
 				</a>
-				<a href="#导航器-navigator" id="导航器-navigator" style="color: inherit; text-decoration: none;">
-					<h2>导航器 Navigator</h2>
+				<a href="#内部路由策略：体验更加的调用方式" id="内部路由策略：体验更加的调用方式" style="color: inherit; text-decoration: none;">
+					<h3>内部路由策略：体验更加的调用方式</h3>
 				</a>
 				<a href="#使用自定义组件跳转" id="使用自定义组件跳转" style="color: inherit; text-decoration: none;">
-					<h2>使用自定义组件跳转</h2>
+					<h3>使用自定义组件跳转</h3>
 				</a>
-				<a href="#内部路由策略" id="内部路由策略" style="color: inherit; text-decoration: none;">
-					<h2>内部路由策略</h2>
-				</a>
-				<a href="#typescript" id="typescript" style="color: inherit; text-decoration: none;">
-					<h2>TypeScript</h2>
+				<a href="#typescript-支持" id="typescript-支持" style="color: inherit; text-decoration: none;">
+					<h3>TypeScript 支持</h3>
 				</a>
 				<a href="#如何组织项目" id="如何组织项目" style="color: inherit; text-decoration: none;">
-					<h2>如何组织项目</h2>
+					<h3>如何组织项目</h3>
+				</a>
+				<a href="#导航器-navigator" id="导航器-navigator" style="color: inherit; text-decoration: none;">
+					<h3>导航器 Navigator</h3>
 				</a>
 				<a href="#通过替换跳转引擎，以支持-tarojs" id="通过替换跳转引擎，以支持-tarojs" style="color: inherit; text-decoration: none;">
-					<h2>通过替换跳转引擎，以支持 TaroJS</h2>
+					<h3>通过替换跳转引擎，以支持 TaroJS</h3>
+				</a>
+				<a href="#架构设计" id="架构设计" style="color: inherit; text-decoration: none;">
+					<h2>架构设计</h2>
 				</a>
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>API</h2>
 				</a>
+				<p>详见官网：<a href="https://jerryc8080.github.io/wxapp-router/">wxapp-router</a></p>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
-				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#104;&#x75;&#x61;&#110;&#103;&#106;&#101;&#x72;&#x72;&#121;&#x63;&#x40;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#109;">&#104;&#x75;&#x61;&#110;&#103;&#106;&#101;&#x72;&#x72;&#121;&#x63;&#x40;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#109;</a>)</p>
-				<a href="#todo" id="todo" style="color: inherit; text-decoration: none;">
-					<h2>TODO</h2>
-				</a>
-				<ul>
-					<li><input disabled="" type="checkbox"> routes 支持 TS 层次联想，例如：routes.pages.a.go();</li>
-					<li><input disabled="" type="checkbox"> 页面入参的 TS 类型支持，例如：routes.pages.a.go(query: QueryType);</li>
-					<li><input disabled="" type="checkbox"> 支持底层替换跳转引擎，以支持小程序框架的路由跳转替换，或者其他跨端需求；</li>
-					<li><input disabled="" type="checkbox"> 自动化启动</li>
-					<li><input disabled="" type="checkbox"> 文档重构</li>
-				</ul>
+				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#117;&#x61;&#x6e;&#103;&#x6a;&#x65;&#114;&#114;&#121;&#99;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;">&#x68;&#117;&#x61;&#x6e;&#103;&#x6a;&#x65;&#114;&#114;&#121;&#99;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;</a>)</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
