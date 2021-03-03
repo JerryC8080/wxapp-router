@@ -165,12 +165,133 @@ router.gotoPage(<span class="hljs-string">&#x27;/goods/456&#x27;</span>);
 </code></pre>
 				<p><code>wxapp-router</code> 使用 <a href="https://github.com/pillarjs/path-to-regexp">path-to-regexp</a> 作为路径匹配引擎，以支持更多高级的匹配模式。</p>
 				<p>如要学习更高级的路径匹配，参考 <code>path-to-regexp</code> 的 <a href="https://github.com/pillarjs/path-to-regexp/tree/v1.7.0#parameters">文档 - Parameters 章节</a></p>
-				<a href="#外部路由策略：虚拟路由-amp-落地中转策略" id="外部路由策略：虚拟路由-amp-落地中转策略" style="color: inherit; text-decoration: none;">
-					<h3>外部路由策略：虚拟路由 &amp; 落地中转策略</h3>
+				<a href="#外部路由策略：「虚拟路由」--「落地中转」-「短链参数」" id="外部路由策略：「虚拟路由」--「落地中转」-「短链参数」" style="color: inherit; text-decoration: none;">
+					<h3>外部路由策略：「虚拟路由」 + 「落地中转」+ 「短链参数」</h3>
 				</a>
-				<a href="#内部路由策略：体验更加的调用方式" id="内部路由策略：体验更加的调用方式" style="color: inherit; text-decoration: none;">
-					<h3>内部路由策略：体验更加的调用方式</h3>
+				<p>「外部路由」指的是从小程序外部打开小程序的方式，例如：扫小程序码、公众号菜单、公众号文章等等。</p>
+				<p>根据小程序的设计，暴露给外部的连接是真实的页面路径，如：<code>/pages/home/index</code> 。</p>
+				<p>该设计在实践中存在的弊端：<strong>各个落地页分散，后期修改真实文件路径难度大。</strong></p>
+				<p>在<strong>「中长生命周期」</strong>产品中，随着产品的迭代，我们难免会遇到项目的重构。</p>
+				<p>如果分发出去的都是没经过处理的真实路径的话，为了兼容旧入口，我们重构就会束手束脚，要做更多的兼容动作。因为你不知道，分发出去的小程序二维码， 有多少被打印到实体物料中。</p>
+				<p>那么，「虚拟路由」+「落地中转」的策略就显得很基本且重要了。</p>
+				<a href="#「虚拟路由」-「落地中转」" id="「虚拟路由」-「落地中转」" style="color: inherit; text-decoration: none;">
+					<h4>「虚拟路由」+ 「落地中转」</h4>
 				</a>
+				<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200817162442.png" alt="普通模式"></p>
+				<p>基本逻辑：</p>
+				<ol>
+					<li>分发出去的真实路由，指向到唯一的落地页面，如：<code>/pages/land-page/idnex</code></li>
+					<li>由这个落地页面，进行内部路由的重定向转发，通过接收 参数，如：<code>path=/user&amp;name=jc&amp;age=18</code></li>
+				</ol>
+				<p><code>wxapp-router</code> 提供了 「落地中转器」（LandTransfer）来让你更优雅的处理这种场景：</p>
+				<pre><code class="language-javascript"><span class="hljs-comment">// /pages/land-page/index.ts</span>
+
+<span class="hljs-keyword">import</span> { LandTransfer } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
+
+<span class="hljs-keyword">const</span> landTransfer = <span class="hljs-keyword">new</span> LandTransfer(LandTransferParams);
+
+Page({
+  <span class="hljs-function"><span class="hljs-title">onLoad</span>(<span class="hljs-params">options</span>)</span> {
+      landTransfer
+        .run(options)
+        .then(<span class="hljs-function">() =&gt;</span> {...})
+        .catch(<span class="hljs-function">() =&gt;</span> {...});
+  }
+});
+</code></pre>
+				<a href="#「短链参数」" id="「短链参数」" style="color: inherit; text-decoration: none;">
+					<h4>「短链参数」</h4>
+				</a>
+				<p>微信小程序主要提供了两个接口去生成小程序码：</p>
+				<ol>
+					<li><a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.get.html">wxacode.get</a>: 获取小程序码，适用于需要的码数量较少的业务场景。<strong>通过该接口生成的小程序码，永久有效，数量限制为 100,000</strong> 个</li>
+					<li><a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.getUnlimited.html">wxacode.getUnlimited</a>: 获取小程序码，适用于需要的码数量极多的业务场景。<strong>通过该接口生成的小程序码，永久有效，数量暂无限制。</strong></li>
+				</ol>
+				<p>第一种方式，<code>wxacode.get</code> 数量限制为 10w 个，虽然量很大了，绝大多数的小程序可能用不到这个量。</p>
+				<p>但如果我们运营的是一个中大型电商小程序的话，假如：1w 种商品 x 10 种商品规格，那就会超过这个数量。到时候再进行改造，就困难了。</p>
+				<p>所以，如果抱着是运营一个<strong>「中长生命周期」</strong>的产品的话，我们会使用第二种方式：<code>wxacode.getUnlimited</code></p>
+				<p>不尽人意的是，虽然它没有数量限制，但是对参数会有 32 个字符的限制，显然是不够用的（一个 uuid 就 32 字符了）。</p>
+				<p>所以，<code>LandTransfer</code> 提供了「短链参数」功能：</p>
+				<p><code>LandTransfer</code> 定义 scene 参数格式为：<code>sp=abc</code>，其中 <code>abc</code> 的转换，需要开发者通过 <code>onDecodeSceneShortParams</code> 方法自行定义，一般是由后端提供 API 服务。</p>
+				<p>以下提供前端示例代码，以及完整的前后端时序图，供参考。</p>
+				<pre><code class="language-javascript"><span class="hljs-comment">// in /pages/land-page/index.js</span>
+
+<span class="hljs-keyword">import</span> { LandTransfer } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@tencent/retailwe-common-libs-landtransfer&#x27;</span>;
+
+
+<span class="hljs-keyword">const</span> landTransfer = <span class="hljs-keyword">new</span> LandTransfer({
+  <span class="hljs-comment">// 此处接收 scene: sp=abc，中的 sp value</span>
+  <span class="hljs-attr">onDecodeSceneShortParams</span>: <span class="hljs-function">(<span class="hljs-params">sceneSp</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> API
+        .decodeSceneSP({ sceneSp })
+        .then(<span class="hljs-function">(<span class="hljs-params">content</span>) =&gt;</span> {
+            <span class="hljs-comment">// 假如后端存的是 JSON 字符串，前端decode</span>
+            <span class="hljs-comment">// 要求 condtent = { path: &#x27;/home&#x27;, a: 1, b:2 }</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.parse(content);
+        })
+  }
+});
+
+Page({
+  <span class="hljs-function"><span class="hljs-title">onLoad</span>(<span class="hljs-params">options</span>)</span> {
+    landTransfer
+      .run(options)
+      .then(<span class="hljs-function">() =&gt;</span> {...})
+      .catch(<span class="hljs-function">() =&gt;</span> {...});
+    }
+});
+</code></pre>
+				<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200819112451.png" alt="Scene短链模式"></p>
+				<a href="#内部路由策略：开发体验更好的调用方式" id="内部路由策略：开发体验更好的调用方式" style="color: inherit; text-decoration: none;">
+					<h3>内部路由策略：开发体验更好的调用方式</h3>
+				</a>
+				<p>对于小程序内部的路由跳转，我们除了指定一个字符串的路由，我们是否也可以通过链式调用，像调用函数那样去跳转页面呢？类似这样；</p>
+				<pre><code class="language-javascript">routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
+</code></pre>
+				<p>这样做的好处是：</p>
+				<ol>
+					<li>更自然的调用方式。</li>
+					<li>能结合 TS，来做到类型提示和联想。</li>
+				</ol>
+				<p>由于事先 <code>wxapp-router</code> 并不知道开发者需要注册的路由是什么样的，所以路由的 TS 声明文件，需要开发者来定义。</p>
+				<p>例如，我们在项目中维护一份路由文件：</p>
+				<pre><code class="language-typescript"><span class="hljs-comment">// routes.ts</span>
+
+<span class="hljs-keyword">import</span> { Router, Route } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
+
+<span class="hljs-comment">// 创建路由实例</span>
+<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
+
+<span class="hljs-keyword">const</span> routesConfig = [{
+    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user&#x27;</span>,
+    <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/user/index&#x27;</span>,
+}, {
+  <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/goods&#x27;</span>,
+    <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/goods/index&#x27;</span>,
+}]；
+
+<span class="hljs-keyword">type</span> RoutesType {
+  <span class="hljs-attr">paegs</span>: {
+    <span class="hljs-attr">user</span>: Route&lt;{<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>}&gt;,
+    goods: Route,
+  }
+}
+
+<span class="hljs-comment">// 注册路由</span>
+router.batchRegister(routesConfig);
+
+<span class="hljs-comment">// 获取 routes</span>
+<span class="hljs-keyword">const</span> routes: RoutesType = router.getRoutes();
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> routes;
+</code></pre>
+				<p>然后在别的地方使用它：</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> routes <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./routes.ts&#x27;</span>;
+
+routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
+</code></pre>
+				<p>如果路由变多的时候，我们还需要手动去编写 <code>RoutesType</code> 的话，就有点难受了。</p>
+				<p>所以我提供了一个<a href="">实例项目</a>，在遵循既定的项目结构情况下，支持根据路由配置文件，生成对应的 TS 声明文件。</p>
 				<a href="#使用自定义组件跳转" id="使用自定义组件跳转" style="color: inherit; text-decoration: none;">
 					<h3>使用自定义组件跳转</h3>
 				</a>
@@ -199,7 +320,7 @@ router.gotoPage(<span class="hljs-string">&#x27;/goods/456&#x27;</span>);
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
-				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#x75;&#x61;&#x6e;&#x67;&#x6a;&#x65;&#114;&#114;&#121;&#99;&#x40;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#111;&#x6d;">&#x68;&#x75;&#x61;&#x6e;&#x67;&#x6a;&#x65;&#114;&#114;&#121;&#99;&#x40;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#111;&#x6d;</a>)</p>
+				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#117;&#97;&#110;&#103;&#x6a;&#101;&#114;&#114;&#121;&#99;&#x40;&#103;&#109;&#97;&#105;&#x6c;&#x2e;&#99;&#x6f;&#x6d;">&#x68;&#117;&#97;&#110;&#103;&#x6a;&#101;&#114;&#114;&#121;&#99;&#x40;&#103;&#109;&#97;&#105;&#x6c;&#x2e;&#99;&#x6f;&#x6d;</a>)</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
