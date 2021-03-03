@@ -111,22 +111,22 @@
 
 <span class="hljs-comment">// 注册路由</span>
 router.register({
+  <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user&#x27;</span>, <span class="hljs-comment">// 虚拟路由</span>
   <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, <span class="hljs-comment">// 真实路由</span>
-  <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user/:id&#x27;</span>, <span class="hljs-comment">// 虚拟路由</span>
 });
 
 <span class="hljs-keyword">const</span> query = { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">18</span> };
 
 <span class="hljs-comment">// 智能跳转</span>
-router.gotoPage(<span class="hljs-string">&#x27;/user/123&#x27;</span>, query);
+router.gotoPage(<span class="hljs-string">&#x27;/user&#x27;</span>, query);
 <span class="hljs-comment">// 跳转到 /pages/user/index</span>
-<span class="hljs-comment">// onLoad(options) 中 options = {name: &#x27;jc&#x27;, age: 18, id: &#x27;123&#x27;};</span>
+<span class="hljs-comment">// onLoad(options) 中 options = {name: &#x27;jc&#x27;, age: 18};</span>
 
 <span class="hljs-comment">// 显式跳转</span>
-router.redirectTo(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query);
-router.navigateTo(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query);
-router.navigateBack(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query);
-router.switchTab(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query);
+router.redirectTo(<span class="hljs-string">&#x27;/user&#x27;</span>, query);
+router.navigateTo(<span class="hljs-string">&#x27;/user&#x27;</span>, query);
+router.navigateBack(<span class="hljs-string">&#x27;/user&#x27;</span>, query);
+router.switchTab(<span class="hljs-string">&#x27;/user&#x27;</span>, query);
 </code></pre>
 				<a href="#智能跳转策略" id="智能跳转策略" style="color: inherit; text-decoration: none;">
 					<h3>智能跳转策略</h3>
@@ -153,8 +153,8 @@ router.switchTab(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query)
 
 <span class="hljs-comment">// 注册路由</span>
 router.register({
-  <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/goods/index&#x27;</span>, <span class="hljs-comment">// 真实路由</span>
   <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/goods/:id&#x27;</span>, <span class="hljs-comment">// 虚拟路由</span>
+  <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/goods/index&#x27;</span>, <span class="hljs-comment">// 真实路由</span>
 });
 
 <span class="hljs-comment">// 跳转到 /pages/goods/index，参数: onLoad(options) 的 options = { id: &#x27;123&#x27; }</span>
@@ -199,7 +199,7 @@ router.gotoPage(<span class="hljs-string">&#x27;/goods/456&#x27;</span>);
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
-				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#104;&#x75;&#x61;&#110;&#x67;&#106;&#101;&#114;&#x72;&#121;&#99;&#x40;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;">&#104;&#x75;&#x61;&#110;&#x67;&#106;&#101;&#114;&#x72;&#121;&#99;&#x40;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;</a>)</p>
+				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#104;&#x75;&#97;&#110;&#103;&#106;&#101;&#x72;&#x72;&#x79;&#x63;&#x40;&#103;&#109;&#97;&#105;&#108;&#46;&#x63;&#111;&#109;">&#104;&#x75;&#97;&#110;&#103;&#106;&#101;&#x72;&#x72;&#x79;&#x63;&#x40;&#103;&#109;&#97;&#105;&#108;&#46;&#x63;&#111;&#109;</a>)</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
