@@ -6,9 +6,9 @@
 
 [![CircleCI](https://img.shields.io/circleci/build/github/JerryC8080/wxapp-router/master?style=for-the-badge)](https://circleci.com/gh/JerryC8080/wxapp-router/tree/master)
 [![Coveralls github branch](https://img.shields.io/coveralls/github/JerryC8080/wxapp-router/master?style=for-the-badge)](https://coveralls.io/github/JerryC8080/wxapp-router?branch=master)
-[![NPM Version](https://img.shields.io/npm/v/@jerryc/wxapp-router.svg?style=for-the-badge)](https://www.npmjs.com/package/@jerryc/wxapp-router)
-[![NPM Downloads](https://img.shields.io/npm/dm/@jerryc/wxapp-router.svg?style=for-the-badge)](https://www.npmjs.com/package/@jerryc/wxapp-router)
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/@jerryc/mini-logger.svg?style=for-the-badge)
+[![NPM Version](https://img.shields.io/npm/v/wxapp-router.svg?style=for-the-badge)](https://www.npmjs.com/package/wxapp-router)
+[![NPM Downloads](https://img.shields.io/npm/dm/wxapp-router.svg?style=for-the-badge)](https://www.npmjs.com/package/wxapp-router)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/mini-logger.svg?style=for-the-badge)
 
 ## 动机
 
