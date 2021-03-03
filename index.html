@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@jerryc/wxapp-router</title>
-	<meta name="description" content="Documentation for @jerryc/wxapp-router">
+	<title>wxapp-router</title>
+	<meta name="description" content="Documentation for wxapp-router">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">@jerryc/wxapp-router</a>
+					<a href="index.html" class="title">wxapp-router</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1>@jerryc/wxapp-router</h1>
+			<h1>wxapp-router</h1>
 		</div>
 	</div>
 </header>
@@ -80,7 +80,7 @@
 				</a>
 				<p>对于微信小程序原生路由：</p>
 				<ol>
-					<li>写代码，要显式判断情况，然后使用不同的 wx.xxx</li>
+					<li>原生的 <code>wx.navigateTo/redirectTo/switchTab/navigateBack</code> 较底层，使用体验较原始。</li>
 					<li>暴露真实路由，通过小程序二维码等方式暴露出去的路径，不利于修改项目结构。</li>
 					<li>微信路由十层级路由问题、页面死循环问题。</li>
 					<li>小程序无限二维码解决方案。（短链参数解析）</li>
@@ -96,7 +96,7 @@
 				<a href="#下载" id="下载" style="color: inherit; text-decoration: none;">
 					<h2>下载</h2>
 				</a>
-				<pre><code class="language-shell">npm install @jerryc/wxapp-router
+				<pre><code class="language-shell">npm install wxapp-router
 </code></pre>
 				<a href="#使用说明" id="使用说明" style="color: inherit; text-decoration: none;">
 					<h2>使用说明</h2>
@@ -104,7 +104,7 @@
 				<a href="#快速使用" id="快速使用" style="color: inherit; text-decoration: none;">
 					<h3>快速使用</h3>
 				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@jerryc/wxapp-router&#x27;</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
 
 <span class="hljs-comment">// 创建路由实例</span>
 <span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
@@ -131,9 +131,40 @@ router.switchTab(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query)
 				<a href="#智能跳转策略" id="智能跳转策略" style="color: inherit; text-decoration: none;">
 					<h3>智能跳转策略</h3>
 				</a>
-				<a href="#动态路由参数" id="动态路由参数" style="color: inherit; text-decoration: none;">
-					<h3>动态路由参数</h3>
+				<p>当我们使用 <code>router.gotoPage()</code> 的时候，<code>wxapp-router</code> 会根据一套计算逻辑来确定使用微信小程序路由 API 中的哪一个来实现路由跳转。</p>
+				<p>具体逻辑如下：</p>
+				<ol>
+					<li>当跳转的路由为小程序 tab 页面时，则使用 <code>wx.switchTab</code>。</li>
+					<li>当页面栈达到 10 层之后，如果要跳转的页面在页面栈中，使用 <code>wx.navigateBack({ delta: X })</code> 出栈到目标页面。</li>
+					<li>当页面栈达到 10 层之后，目标页面不存在页面栈中，使用 <code>wx.redirectTo</code> 替换栈顶页面。</li>
+					<li>其他情况使用 <code>wx.navigateTo</code></li>
+				</ol>
+				<p>详细代码参考：<a href="https://github.com/JerryC8080/wxapp-router/blob/ff8db80cbf6ea939509504e3fe6ecec5cecc0790/src/lib/navigator.ts#L39">navigator.ts/gotoPage</a></p>
+				<a href="#动态路由匹配" id="动态路由匹配" style="color: inherit; text-decoration: none;">
+					<h3>动态路由匹配</h3>
 				</a>
+				<p>我们经常需要把某种模式匹配到的所有路由，全都映射到同个页面中去。</p>
+				<p>例如，我们有一个 Goods 页面，对于所有 ID 各不相同的商品，都要使用这个页面来承载。</p>
+				<p>那么，我们可以在 <code>wxapp-router</code> 的路由路径中使用 「动态路径参数」(dynamic segment) 来达到这个效果：</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
+
+<span class="hljs-comment">// 创建路由实例</span>
+<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
+
+<span class="hljs-comment">// 注册路由</span>
+router.register({
+  <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/goods/index&#x27;</span>, <span class="hljs-comment">// 真实路由</span>
+  <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/goods/:id&#x27;</span>, <span class="hljs-comment">// 虚拟路由</span>
+});
+
+<span class="hljs-comment">// 跳转到 /pages/goods/index，参数: onLoad(options) 的 options = { id: &#x27;123&#x27; }</span>
+router.gotoPage(<span class="hljs-string">&#x27;/goods/123&#x27;</span>);
+
+<span class="hljs-comment">// 跳转到 /pages/goods/index，参数: onLoad(options) 的 options = { id: &#x27;456&#x27; }</span>
+router.gotoPage(<span class="hljs-string">&#x27;/goods/456&#x27;</span>);
+</code></pre>
+				<p><code>wxapp-router</code> 使用 <a href="https://github.com/pillarjs/path-to-regexp">path-to-regexp</a> 作为路径匹配引擎，以支持更多高级的匹配模式。</p>
+				<p>如要学习更高级的路径匹配，参考 <code>path-to-regexp</code> 的 <a href="https://github.com/pillarjs/path-to-regexp/tree/v1.7.0#parameters">文档 - Parameters 章节</a></p>
 				<a href="#外部路由策略：虚拟路由-amp-落地中转策略" id="外部路由策略：虚拟路由-amp-落地中转策略" style="color: inherit; text-decoration: none;">
 					<h3>外部路由策略：虚拟路由 &amp; 落地中转策略</h3>
 				</a>
@@ -148,6 +179,9 @@ router.switchTab(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query)
 				</a>
 				<a href="#如何组织项目" id="如何组织项目" style="color: inherit; text-decoration: none;">
 					<h3>如何组织项目</h3>
+				</a>
+				<a href="#根据-appjson-自动生成路由配置" id="根据-appjson-自动生成路由配置" style="color: inherit; text-decoration: none;">
+					<h3>根据 <code>app.json</code> 自动生成路由配置</h3>
 				</a>
 				<a href="#导航器-navigator" id="导航器-navigator" style="color: inherit; text-decoration: none;">
 					<h3>导航器 Navigator</h3>
@@ -165,7 +199,7 @@ router.switchTab(<span class="hljs-string">&#x27;/user/:123&#x27;</span>, query)
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
-				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#104;&#117;&#x61;&#x6e;&#x67;&#x6a;&#x65;&#114;&#x72;&#x79;&#99;&#64;&#x67;&#109;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;">&#104;&#117;&#x61;&#x6e;&#x67;&#x6a;&#x65;&#114;&#x72;&#x79;&#99;&#64;&#x67;&#109;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;</a>)</p>
+				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#104;&#x75;&#x61;&#110;&#x67;&#106;&#101;&#114;&#x72;&#121;&#99;&#x40;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;">&#104;&#x75;&#x61;&#110;&#x67;&#106;&#101;&#114;&#x72;&#121;&#99;&#x40;&#x67;&#109;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;</a>)</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
