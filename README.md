@@ -105,9 +105,160 @@ router.gotoPage('/goods/456');
 
 如要学习更高级的路径匹配，参考 `path-to-regexp` 的 [文档 - Parameters 章节](https://github.com/pillarjs/path-to-regexp/tree/v1.7.0#parameters)
 
-### 外部路由策略：虚拟路由 & 落地中转策略
+### 外部路由策略：「虚拟路由」 + 「落地中转」+ 「短链参数」
 
-### 内部路由策略：体验更加的调用方式
+「外部路由」指的是从小程序外部打开小程序的方式，例如：扫小程序码、公众号菜单、公众号文章等等。
+
+根据小程序的设计，暴露给外部的连接是真实的页面路径，如：`/pages/home/index` 。
+
+该设计在实践中存在的弊端：**各个落地页分散，后期修改真实文件路径难度大。**
+
+在**「中长生命周期」**产品中，随着产品的迭代，我们难免会遇到项目的重构。
+
+如果分发出去的都是没经过处理的真实路径的话，为了兼容旧入口，我们重构就会束手束脚，要做更多的兼容动作。因为你不知道，分发出去的小程序二维码， 有多少被打印到实体物料中。
+
+那么，「虚拟路由」+「落地中转」的策略就显得很基本且重要了。
+
+#### 「虚拟路由」+ 「落地中转」
+
+![普通模式](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200817162442.png)
+
+基本逻辑：
+
+1. 分发出去的真实路由，指向到唯一的落地页面，如：`/pages/land-page/idnex`
+2. 由这个落地页面，进行内部路由的重定向转发，通过接收 参数，如：`path=/user&name=jc&age=18`
+
+`wxapp-router` 提供了 「落地中转器」（LandTransfer）来让你更优雅的处理这种场景：
+
+```javascript
+// /pages/land-page/index.ts
+
+import { LandTransfer } from 'wxapp-router';
+
+const landTransfer = new LandTransfer(LandTransferParams);
+
+Page({
+  onLoad(options) {
+      landTransfer
+        .run(options)
+        .then(() => {...})
+        .catch(() => {...});
+  }
+});
+```
+
+#### 「短链参数」
+
+微信小程序主要提供了两个接口去生成小程序码：
+
+1. [wxacode.get](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.get.html): 获取小程序码，适用于需要的码数量较少的业务场景。**通过该接口生成的小程序码，永久有效，数量限制为 100,000** 个
+2. [wxacode.getUnlimited](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.getUnlimited.html): 获取小程序码，适用于需要的码数量极多的业务场景。**通过该接口生成的小程序码，永久有效，数量暂无限制。**
+
+第一种方式，`wxacode.get` 数量限制为 10w 个，虽然量很大了，绝大多数的小程序可能用不到这个量。
+
+但如果我们运营的是一个中大型电商小程序的话，假如：1w 种商品 x 10 种商品规格，那就会超过这个数量。到时候再进行改造，就困难了。
+
+所以，如果抱着是运营一个**「中长生命周期」**的产品的话，我们会使用第二种方式：`wxacode.getUnlimited`
+
+不尽人意的是，虽然它没有数量限制，但是对参数会有 32 个字符的限制，显然是不够用的（一个 uuid 就 32 字符了）。
+
+所以，`LandTransfer` 提供了「短链参数」功能：
+
+`LandTransfer` 定义 scene 参数格式为：`sp=abc`，其中 `abc` 的转换，需要开发者通过 `onDecodeSceneShortParams` 方法自行定义，一般是由后端提供 API 服务。
+
+以下提供前端示例代码，以及完整的前后端时序图，供参考。
+
+```javascript
+// in /pages/land-page/index.js
+
+import { LandTransfer } from '@tencent/retailwe-common-libs-landtransfer';
+
+
+const landTransfer = new LandTransfer({
+  // 此处接收 scene: sp=abc，中的 sp value
+  onDecodeSceneShortParams: (sceneSp) => {
+    return API
+        .decodeSceneSP({ sceneSp })
+        .then((content) => {
+            // 假如后端存的是 JSON 字符串，前端decode
+            // 要求 condtent = { path: '/home', a: 1, b:2 }
+            return JSON.parse(content);
+        })
+  }
+});
+
+Page({
+  onLoad(options) {
+    landTransfer
+      .run(options)
+      .then(() => {...})
+      .catch(() => {...});
+    }
+});
+```
+
+![Scene短链模式](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200819112451.png)
+
+### 内部路由策略：开发体验更好的调用方式
+
+对于小程序内部的路由跳转，我们除了指定一个字符串的路由，我们是否也可以通过链式调用，像调用函数那样去跳转页面呢？类似这样；
+
+```javascript
+routes.pages.user.go({ name: 'jc' });
+```
+
+这样做的好处是：
+
+1. 更自然的调用方式。
+2. 能结合 TS，来做到类型提示和联想。
+
+由于事先 `wxapp-router` 并不知道开发者需要注册的路由是什么样的，所以路由的 TS 声明文件，需要开发者来定义。
+
+例如，我们在项目中维护一份路由文件：
+
+```typescript
+// routes.ts
+
+import { Router, Route } from 'wxapp-router';
+
+// 创建路由实例
+const router = new Router();
+
+const routesConfig = [{
+	path: '/user',
+	route: '/pages/user/index',
+}, {
+  path: '/goods',
+	route: '/pages/goods/index',
+}]；
+
+type RoutesType {
+  paegs: {
+    user: Route<{name: string}>,
+    goods: Route,
+  }
+}
+
+// 注册路由
+router.batchRegister(routesConfig);
+
+// 获取 routes
+const routes: RoutesType = router.getRoutes();
+
+export default routes;
+```
+
+然后在别的地方使用它：
+
+```typescript
+import routes from './routes.ts';
+
+routes.pages.user.go({ name: 'jc' });
+```
+
+如果路由变多的时候，我们还需要手动去编写 `RoutesType` 的话，就有点难受了。
+
+所以我提供了一个[实例项目]()，在遵循既定的项目结构情况下，支持根据路由配置文件，生成对应的 TS 声明文件。
 
 ### 使用自定义组件跳转
 
