@@ -43,22 +43,22 @@ const router = new Router();
 
 // 注册路由
 router.register({
+  path: '/user', // 虚拟路由
   route: '/pages/user/index', // 真实路由
-  path: '/user/:id', // 虚拟路由
 });
 
 const query = { name: 'jc', age: 18 };
 
 // 智能跳转
-router.gotoPage('/user/123', query);
+router.gotoPage('/user', query);
 // 跳转到 /pages/user/index
-// onLoad(options) 中 options = {name: 'jc', age: 18, id: '123'};
+// onLoad(options) 中 options = {name: 'jc', age: 18};
 
 // 显式跳转
-router.redirectTo('/user/:123', query);
-router.navigateTo('/user/:123', query);
-router.navigateBack('/user/:123', query);
-router.switchTab('/user/:123', query);
+router.redirectTo('/user', query);
+router.navigateTo('/user', query);
+router.navigateBack('/user', query);
+router.switchTab('/user', query);
 ```
 
 ### 智能跳转策略
@@ -90,8 +90,8 @@ const router = new Router();
 
 // 注册路由
 router.register({
-  route: '/pages/goods/index', // 真实路由
   path: '/goods/:id', // 虚拟路由
+  route: '/pages/goods/index', // 真实路由
 });
 
 // 跳转到 /pages/goods/index，参数: onLoad(options) 的 options = { id: '123' }
