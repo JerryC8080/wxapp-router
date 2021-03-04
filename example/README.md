@@ -53,3 +53,4 @@ npm i
 
 - [ ] routes 支持 TS 层次联想，例如：routes.pages.a.go();
 - [ ] 页面入参的 TS 类型支持，例如：routes.pages.a.go(query: QueryType);
+- [ ] 根据 `app.json` 自动生成路由配置

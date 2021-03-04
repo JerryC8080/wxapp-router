@@ -199,7 +199,7 @@ Page({
 
 ![Scene短链模式](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200819112451.png)
 
-### 内部路由策略：开发体验更好的调用方式
+### 内部路由策略：获取更好的开发体验
 
 对于小程序内部的路由跳转，我们除了指定一个字符串的路由，我们是否也可以通过链式调用，像调用函数那样去跳转页面呢？类似这样；
 
@@ -225,11 +225,11 @@ import { Router, Route } from 'wxapp-router';
 const router = new Router();
 
 const routesConfig = [{
-	path: '/user',
-	route: '/pages/user/index',
+  path: '/user',
+  route: '/pages/user/index',
 }, {
   path: '/goods',
-	route: '/pages/goods/index',
+  route: '/pages/goods/index',
 }]；
 
 type RoutesType {
@@ -262,21 +262,56 @@ routes.pages.user.go({ name: 'jc' });
 
 ### 使用自定义组件跳转
 
-### TypeScript 支持
+`wxapp-router` 提供了一个充作粘合剂的自定义组件 `<Router>` 的示例代码，让你可以再 wxml 文件中编写跳转路由的代码：
+
+```html
+<Router path="/pageA" query="{{pageAQuery}}"></Router>
+<Router path="/pageB" query="{{pageBQuery}}" type="redirectTo"></Router>
+<Router path="/pageC/katy"></Router>
+```
+
+你可以从示例项目中找到改组件的代码：[/example/miniprogram/components/router](https://github.com/JerryC8080/wxapp-router/tree/master/example/miniprogram/components/router)
 
 ### 如何组织项目
 
-### 根据 `app.json` 自动生成路由配置
+`wxapp-router` 提供了一个示例小程序，来给你展示我认为的结合项目去使用 `wxapp-router` 的最佳姿势，它提供了一下功能；
+
+1. 自定义组件：`<Router>`。
+2. 内部路由的 TS 支持，如 `routes.pages.user.go(query)` 的联想提示个入参提示。
+3. 根据 `app.json` 自动生成路由配置文件，只需要维护 `app.json` 一份文件，其他自动生成。
+
+详情请看：[wxapp-router/example](https://github.com/JerryC8080/wxapp-router/tree/master/example)
 
 ### 导航器 Navigator
 
-### 通过替换跳转引擎，以支持 TaroJS
+`wxapp-router` 的跳转逻辑，是由内建的 `Navigator` 提供支持的，它提供了这些功能：
+
+1. 封装 `wx.navigateTo/switchTab/redirectTo/navigateBack`，并且返回 Promise 对象。
+2. 提供 `gotoPage`，实现 [智能跳转策略](#智能跳转策略)
+
+你完全可以跳过所有的顶层实现，直接使用 `Navigator` 进行底层调用：
+
+```javascript
+import { navigator } from 'wxapp-router';
+
+navigator.gotoPage('/pages/user/index', { name: 'jc' });
+navigator.navigateTo('/pages/user/index', { name: 'jc' });
+navigator.switchTab('/pages/user/index', { name: 'jc' });
+navigator.redirectTo('/pages/user/index', { name: 'jc' });
+navigator.navigateBack({ delta: 1 });
+```
 
 ## 架构设计
 
-## API
+1. Navigator：封装微信原生路由 API，提供智能跳转策略。
+1. LandTransfer： 提供落地页中转策略。
+1. RouteMatcher：提供动态路由参数匹配功能。
+1. Router：整合内部各模块，对外提供优雅的调用方式。
+1. Logger：内部日志器。
 
-详见官网：[wxapp-router](https://jerryc8080.github.io/wxapp-router/)
+## More API
+
+更多的 API 的使用，详见官网：[wxapp-router](https://jerryc8080.github.io/wxapp-router/)
 
 ## License
 
