@@ -242,8 +242,8 @@ Page({
 });
 </code></pre>
 				<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200819112451.png" alt="Scene短链模式"></p>
-				<a href="#内部路由策略：开发体验更好的调用方式" id="内部路由策略：开发体验更好的调用方式" style="color: inherit; text-decoration: none;">
-					<h3>内部路由策略：开发体验更好的调用方式</h3>
+				<a href="#内部路由策略：获取更好的开发体验" id="内部路由策略：获取更好的开发体验" style="color: inherit; text-decoration: none;">
+					<h3>内部路由策略：获取更好的开发体验</h3>
 				</a>
 				<p>对于小程序内部的路由跳转，我们除了指定一个字符串的路由，我们是否也可以通过链式调用，像调用函数那样去跳转页面呢？类似这样；</p>
 				<pre><code class="language-javascript">routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
@@ -263,11 +263,11 @@ Page({
 <span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
 
 <span class="hljs-keyword">const</span> routesConfig = [{
-    <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user&#x27;</span>,
-    <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/user/index&#x27;</span>,
+  <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user&#x27;</span>,
+  <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/user/index&#x27;</span>,
 }, {
   <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/goods&#x27;</span>,
-    <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/goods/index&#x27;</span>,
+  <span class="hljs-attr">route</span>: <span class="hljs-string">&#x27;/pages/goods/index&#x27;</span>,
 }]；
 
 <span class="hljs-keyword">type</span> RoutesType {
@@ -295,32 +295,57 @@ routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-st
 				<a href="#使用自定义组件跳转" id="使用自定义组件跳转" style="color: inherit; text-decoration: none;">
 					<h3>使用自定义组件跳转</h3>
 				</a>
-				<a href="#typescript-支持" id="typescript-支持" style="color: inherit; text-decoration: none;">
-					<h3>TypeScript 支持</h3>
-				</a>
+				<p><code>wxapp-router</code> 提供了一个充作粘合剂的自定义组件 <code>&lt;Router&gt;</code> 的示例代码，让你可以再 wxml 文件中编写跳转路由的代码：</p>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/pageA&quot;</span> <span class="hljs-attr">query</span>=<span class="hljs-string">&quot;{{pageAQuery}}&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Router</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/pageB&quot;</span> <span class="hljs-attr">query</span>=<span class="hljs-string">&quot;{{pageBQuery}}&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;redirectTo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Router</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/pageC/katy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Router</span>&gt;</span>
+</code></pre>
+				<p>你可以从示例项目中找到改组件的代码：<a href="https://github.com/JerryC8080/wxapp-router/tree/master/example/miniprogram/components/router">/example/miniprogram/components/router</a></p>
 				<a href="#如何组织项目" id="如何组织项目" style="color: inherit; text-decoration: none;">
 					<h3>如何组织项目</h3>
 				</a>
-				<a href="#根据-appjson-自动生成路由配置" id="根据-appjson-自动生成路由配置" style="color: inherit; text-decoration: none;">
-					<h3>根据 <code>app.json</code> 自动生成路由配置</h3>
-				</a>
+				<p><code>wxapp-router</code> 提供了一个示例小程序，来给你展示我认为的结合项目去使用 <code>wxapp-router</code> 的最佳姿势，它提供了一下功能；</p>
+				<ol>
+					<li>自定义组件：<code>&lt;Router&gt;</code>。</li>
+					<li>内部路由的 TS 支持，如 <code>routes.pages.user.go(query)</code> 的联想提示个入参提示。</li>
+					<li>根据 <code>app.json</code> 自动生成路由配置文件，只需要维护 <code>app.json</code> 一份文件，其他自动生成。</li>
+				</ol>
+				<p>详情请看：<a href="https://github.com/JerryC8080/wxapp-router/tree/master/example">wxapp-router/example</a></p>
 				<a href="#导航器-navigator" id="导航器-navigator" style="color: inherit; text-decoration: none;">
 					<h3>导航器 Navigator</h3>
 				</a>
-				<a href="#通过替换跳转引擎，以支持-tarojs" id="通过替换跳转引擎，以支持-tarojs" style="color: inherit; text-decoration: none;">
-					<h3>通过替换跳转引擎，以支持 TaroJS</h3>
-				</a>
+				<p><code>wxapp-router</code> 的跳转逻辑，是由内建的 <code>Navigator</code> 提供支持的，它提供了这些功能：</p>
+				<ol>
+					<li>封装 <code>wx.navigateTo/switchTab/redirectTo/navigateBack</code>，并且返回 Promise 对象。</li>
+					<li>提供 <code>gotoPage</code>，实现 <a href="#%E6%99%BA%E8%83%BD%E8%B7%B3%E8%BD%AC%E7%AD%96%E7%95%A5">智能跳转策略</a></li>
+				</ol>
+				<p>你完全可以跳过所有的顶层实现，直接使用 <code>Navigator</code> 进行底层调用：</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { navigator } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
+
+navigator.gotoPage(<span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
+navigator.navigateTo(<span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
+navigator.switchTab(<span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
+navigator.redirectTo(<span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
+navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs-number">1</span> });
+</code></pre>
 				<a href="#架构设计" id="架构设计" style="color: inherit; text-decoration: none;">
 					<h2>架构设计</h2>
 				</a>
-				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
-					<h2>API</h2>
+				<ol>
+					<li>Navigator：封装微信原生路由 API，提供智能跳转策略。</li>
+					<li>LandTransfer： 提供落地页中转策略。</li>
+					<li>RouteMatcher：提供动态路由参数匹配功能。</li>
+					<li>Router：整合内部各模块，对外提供优雅的调用方式。</li>
+					<li>Logger：内部日志器。</li>
+				</ol>
+				<a href="#more-api" id="more-api" style="color: inherit; text-decoration: none;">
+					<h2>More API</h2>
 				</a>
-				<p>详见官网：<a href="https://jerryc8080.github.io/wxapp-router/">wxapp-router</a></p>
+				<p>更多的 API 的使用，详见官网：<a href="https://jerryc8080.github.io/wxapp-router/">wxapp-router</a></p>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
-				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#117;&#97;&#110;&#103;&#x6a;&#101;&#114;&#114;&#121;&#99;&#x40;&#103;&#109;&#97;&#105;&#x6c;&#x2e;&#99;&#x6f;&#x6d;">&#x68;&#117;&#97;&#110;&#103;&#x6a;&#101;&#114;&#114;&#121;&#99;&#x40;&#103;&#109;&#97;&#105;&#x6c;&#x2e;&#99;&#x6f;&#x6d;</a>)</p>
+				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#117;&#97;&#x6e;&#103;&#106;&#101;&#114;&#114;&#121;&#x63;&#64;&#103;&#109;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#109;">&#x68;&#117;&#97;&#x6e;&#103;&#106;&#101;&#114;&#114;&#121;&#x63;&#64;&#103;&#109;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#109;</a>)</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
