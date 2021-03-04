@@ -262,7 +262,7 @@ routes.pages.user.go({ name: 'jc' });
 
 ### 使用自定义组件跳转
 
-`wxapp-router` 提供了一个充作粘合剂的自定义组件 `<Router>` 的示例代码，让你可以再 wxml 文件中编写跳转路由的代码：
+`wxapp-router` 提供了一个充作粘合剂的自定义组件 `<Router>` ，让你可以在 wxml 文件中使用：
 
 ```html
 <Router path="/pageA" query="{{pageAQuery}}"></Router>
@@ -270,15 +270,15 @@ routes.pages.user.go({ name: 'jc' });
 <Router path="/pageC/katy"></Router>
 ```
 
-你可以从示例项目中找到改组件的代码：[/example/miniprogram/components/router](https://github.com/JerryC8080/wxapp-router/tree/master/example/miniprogram/components/router)
+你可以从示例项目中找到该组件的代码：[/example/miniprogram/components/router](https://github.com/JerryC8080/wxapp-router/tree/master/example/miniprogram/components/router)
 
 ### 如何组织项目
 
-`wxapp-router` 提供了一个示例小程序，来给你展示我认为的结合项目去使用 `wxapp-router` 的最佳姿势，它提供了一下功能；
+`wxapp-router` 提供了一个示例小程序，来展示实际项目中使用 `wxapp-router` 的最佳姿势，它提供了以下功能；
 
 1. 自定义组件：`<Router>`。
-2. 内部路由的 TS 支持，如 `routes.pages.user.go(query)` 的联想提示个入参提示。
-3. 根据 `app.json` 自动生成路由配置文件，只需要维护 `app.json` 一份文件，其他自动生成。
+2. 内部路由的 TS 支持，如 `routes.pages.user.go(query)` 的联想提示和参数提示。
+3. 根据 `app.json` 自动生成路由配置文件。
 
 详情请看：[wxapp-router/example](https://github.com/JerryC8080/wxapp-router/tree/master/example)
 
@@ -304,7 +304,7 @@ navigator.navigateBack({ delta: 1 });
 ## 架构设计
 
 1. Navigator：封装微信原生路由 API，提供智能跳转策略。
-1. LandTransfer： 提供落地页中转策略。
+1. LandTransfer：提供落地页中转策略。
 1. RouteMatcher：提供动态路由参数匹配功能。
 1. Router：整合内部各模块，对外提供优雅的调用方式。
 1. Logger：内部日志器。
