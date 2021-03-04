@@ -7,7 +7,7 @@ export interface CommonParams {
 }
 
 const paramsParsing = (commonParams: CommonParams) => {
-  const { path, query } = commonParams;
+  const { path, query = {} } = commonParams;
   const routerPath =
     typeof path === 'string' ? { path, type: PathType.NORMAL } : path;
 
@@ -36,13 +36,10 @@ export class Navigator {
   private maxDeep = 10;
 
   // 智能跳转应用内某页面
-  public gotoPage(...arg: [CommonParams['path'], CommonParams['query']]) {
+  public async gotoPage(...arg: [CommonParams['path'], CommonParams['query']]) {
     const [path, query = {}] = arg;
     logger.debug('call gotoPage', { path, query });
     const { routerPath } = paramsParsing({ path, query });
-
-    if (!routerPath)
-      return logger.log('gotoPage:fail', `页面路径不存在 ${path}`);
 
     // 页面为tab页面
     if (routerPath.type === PathType.TAB) {
@@ -65,80 +62,112 @@ export class Navigator {
     return this.navigateTo(...arg);
   }
 
-  public navigateTo(
+  /**
+   * navigateTo
+   * @param path 小程序页面真实路径
+   * @param query 页面参数
+   * @param options.events 页面间通信接口，用于监听被打开页面发送到当前页面的数据。
+   */
+  public async navigateTo(
     path: CommonParams['path'],
-    query: CommonParams['query'] = {}
-  ) {
-    if (!this.isClick) return;
+    query?: CommonParams['query'],
+    options?: { events: any }
+  ): Promise<any> {
+    this.checkIsClick();
     this.isClick = false;
 
     const { toUrl } = paramsParsing({ path, query });
 
-    wx.navigateTo({
-      url: toUrl,
-      success: () => {
-        logger.log('navigateTo:success', 'navigateTo成功', { toUrl });
-      },
-      fail: (...arg) => {
-        logger.log('navigateTo:fail', 'navigateTo失败', arg);
-      },
-      complete: () => {
-        this.isClick = true;
-      },
+    return new Promise((resolve, reject) => {
+      wx.navigateTo({
+        url: toUrl,
+        events: options?.events,
+        success: (arg) => {
+          logger.log('navigateTo:success', 'navigateTo成功', { toUrl });
+          resolve(arg);
+          this.isClick = true;
+        },
+        fail: (arg) => {
+          logger.log('navigateTo:fail', 'navigateTo失败', arg);
+          reject(arg);
+          this.isClick = true;
+        },
+      });
     });
   }
 
-  public switchTab(
+  /**
+   * switchTab
+   * @param path 小程序页面真实路径
+   * @param query 页面参数
+   */
+  public async switchTab(
     path: CommonParams['path'],
     query: CommonParams['query'] = {}
   ) {
-    if (!this.isClick) return;
+    this.checkIsClick();
     this.isClick = false;
 
     const { toUrl } = paramsParsing({ path, query });
 
-    wx.switchTab({
-      url: toUrl,
-      success: () => {
-        logger.log('switchTab:success', 'switchTab成功', { toUrl });
-      },
-      fail: (...arg) => {
-        logger.log('switchTab:fail', 'switchTab失败', arg);
-      },
-      complete: () => {
-        this.isClick = true;
-      },
+    return new Promise((resolve, reject) => {
+      wx.switchTab({
+        url: toUrl,
+        success: (arg) => {
+          logger.log('switchTab:success', 'switchTab成功', { toUrl });
+          resolve(arg);
+          this.isClick = true;
+        },
+        fail: (arg) => {
+          logger.log('switchTab:fail', 'switchTab失败', arg);
+          reject(arg);
+          this.isClick = true;
+        },
+      });
     });
   }
 
-  public redirectTo(
+  /**
+   * redirectTo
+   * @param path 小程序页面真实路径
+   * @param query 页面参数
+   */
+  public async redirectTo(
     path: CommonParams['path'],
     query: CommonParams['query'] = {}
   ) {
-    if (!this.isClick) return;
+    this.checkIsClick();
     this.isClick = false;
 
     const { toUrl } = paramsParsing({ path, query });
 
-    wx.redirectTo({
-      url: toUrl,
-      success: () => {
-        logger.log('redirectTo:success', 'redirectTo成功', { toUrl });
-      },
-      fail: (...arg) => {
-        logger.log('redirectTo:fail', 'redirectTo失败', arg);
-      },
-      complete: () => {
-        this.isClick = true;
-      },
+    return new Promise((resolve, reject) => {
+      wx.redirectTo({
+        url: toUrl,
+        success: (arg) => {
+          logger.log('redirectTo:success', 'redirectTo成功', { toUrl });
+          resolve(arg);
+          this.isClick = true;
+        },
+        fail: (arg) => {
+          logger.log('redirectTo:fail', 'redirectTo失败', arg);
+          reject(arg);
+          this.isClick = true;
+        },
+      });
     });
   }
 
-  public navigateBack(
-    query: WechatMiniprogram.NavigateBackOption,
+  /**
+   * navigateBack
+   * @param query.delta 返回的页面数，如果 delta 大于现有页面数，则返回到首页。
+   * @param option.setData 植入目标页面 data 的数据。
+   */
+  public async navigateBack(
+    query: { delta: number },
     option?: { setData: Record<string, unknown> }
   ) {
-    if (!this.isClick) return;
+    this.checkIsClick();
     this.isClick = false;
 
     if (option?.setData) {
@@ -147,17 +176,19 @@ export class Navigator {
       backPage?.setData(option?.setData);
     }
 
-    wx.navigateBack({
-      delta: query.delta,
-      success: (...arg) => query?.success?.(...arg),
-      fail: (...arg) => {
-        logger.log('navigateBack:fail', 'navigateBack失败', arg);
-        query?.fail?.(...arg);
-      },
-      complete: (...arg) => {
-        this.isClick = true;
-        query?.complete?.(...arg);
-      },
+    return new Promise((resolve, reject) => {
+      wx.navigateBack({
+        delta: query.delta,
+        success: (arg) => {
+          resolve(arg);
+          this.isClick = true;
+        },
+        fail: (arg) => {
+          logger.log('navigateBack:fail', 'navigateBack失败', arg);
+          reject(arg);
+          this.isClick = true;
+        },
+      });
     });
   }
 
@@ -181,6 +212,10 @@ export class Navigator {
     }
 
     return delta;
+  }
+
+  private checkIsClick() {
+    if (this.isClick === false) throw new Error('req locked');
   }
 }
 
