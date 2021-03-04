@@ -295,20 +295,20 @@ routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-st
 				<a href="#使用自定义组件跳转" id="使用自定义组件跳转" style="color: inherit; text-decoration: none;">
 					<h3>使用自定义组件跳转</h3>
 				</a>
-				<p><code>wxapp-router</code> 提供了一个充作粘合剂的自定义组件 <code>&lt;Router&gt;</code> 的示例代码，让你可以再 wxml 文件中编写跳转路由的代码：</p>
+				<p><code>wxapp-router</code> 提供了一个充作粘合剂的自定义组件 <code>&lt;Router&gt;</code> ，让你可以在 wxml 文件中使用：</p>
 				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/pageA&quot;</span> <span class="hljs-attr">query</span>=<span class="hljs-string">&quot;{{pageAQuery}}&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Router</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/pageB&quot;</span> <span class="hljs-attr">query</span>=<span class="hljs-string">&quot;{{pageBQuery}}&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;redirectTo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Router</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/pageC/katy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Router</span>&gt;</span>
 </code></pre>
-				<p>你可以从示例项目中找到改组件的代码：<a href="https://github.com/JerryC8080/wxapp-router/tree/master/example/miniprogram/components/router">/example/miniprogram/components/router</a></p>
+				<p>你可以从示例项目中找到该组件的代码：<a href="https://github.com/JerryC8080/wxapp-router/tree/master/example/miniprogram/components/router">/example/miniprogram/components/router</a></p>
 				<a href="#如何组织项目" id="如何组织项目" style="color: inherit; text-decoration: none;">
 					<h3>如何组织项目</h3>
 				</a>
-				<p><code>wxapp-router</code> 提供了一个示例小程序，来给你展示我认为的结合项目去使用 <code>wxapp-router</code> 的最佳姿势，它提供了一下功能；</p>
+				<p><code>wxapp-router</code> 提供了一个示例小程序，来展示实际项目中使用 <code>wxapp-router</code> 的最佳姿势，它提供了以下功能；</p>
 				<ol>
 					<li>自定义组件：<code>&lt;Router&gt;</code>。</li>
-					<li>内部路由的 TS 支持，如 <code>routes.pages.user.go(query)</code> 的联想提示个入参提示。</li>
-					<li>根据 <code>app.json</code> 自动生成路由配置文件，只需要维护 <code>app.json</code> 一份文件，其他自动生成。</li>
+					<li>内部路由的 TS 支持，如 <code>routes.pages.user.go(query)</code> 的联想提示和参数提示。</li>
+					<li>根据 <code>app.json</code> 自动生成路由配置文件。</li>
 				</ol>
 				<p>详情请看：<a href="https://github.com/JerryC8080/wxapp-router/tree/master/example">wxapp-router/example</a></p>
 				<a href="#导航器-navigator" id="导航器-navigator" style="color: inherit; text-decoration: none;">
@@ -333,7 +333,7 @@ navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs
 				</a>
 				<ol>
 					<li>Navigator：封装微信原生路由 API，提供智能跳转策略。</li>
-					<li>LandTransfer： 提供落地页中转策略。</li>
+					<li>LandTransfer：提供落地页中转策略。</li>
 					<li>RouteMatcher：提供动态路由参数匹配功能。</li>
 					<li>Router：整合内部各模块，对外提供优雅的调用方式。</li>
 					<li>Logger：内部日志器。</li>
@@ -345,7 +345,7 @@ navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
-				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#117;&#97;&#x6e;&#103;&#106;&#101;&#114;&#114;&#121;&#x63;&#64;&#103;&#109;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#109;">&#x68;&#117;&#97;&#x6e;&#103;&#106;&#101;&#114;&#114;&#121;&#x63;&#64;&#103;&#109;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#109;</a>)</p>
+				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#104;&#117;&#x61;&#x6e;&#103;&#x6a;&#x65;&#114;&#114;&#121;&#x63;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#104;&#117;&#x61;&#x6e;&#103;&#x6a;&#x65;&#114;&#114;&#121;&#x63;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a>)</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
