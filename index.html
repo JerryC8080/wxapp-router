@@ -146,7 +146,7 @@ router.switchTab(<span class="hljs-string">&#x27;/user&#x27;</span>, query);
 				<p>我们经常需要把某种模式匹配到的所有路由，全都映射到同个页面中去。</p>
 				<p>例如，我们有一个 Goods 页面，对于所有 ID 各不相同的商品，都要使用这个页面来承载。</p>
 				<p>那么，我们可以在 <code>wxapp-router</code> 的路由路径中使用 「动态路径参数」(dynamic segment) 来达到这个效果：</p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
 
 <span class="hljs-comment">// 创建路由实例</span>
 <span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router();
@@ -171,24 +171,25 @@ router.gotoPage(<span class="hljs-string">&#x27;/goods/456&#x27;</span>);
 				<p>「外部路由」指的是从小程序外部打开小程序的方式，例如：扫小程序码、公众号菜单、公众号文章等等。</p>
 				<p>根据小程序的设计，暴露给外部的连接是真实的页面路径，如：<code>/pages/home/index</code> 。</p>
 				<p>该设计在实践中存在的弊端：<strong>各个落地页分散，后期修改真实文件路径难度大。</strong></p>
-				<p>在<strong>「中长生命周期」</strong>产品中，随着产品的迭代，我们难免会遇到项目的重构。</p>
-				<p>如果分发出去的都是没经过处理的真实路径的话，为了兼容旧入口，我们重构就会束手束脚，要做更多的兼容动作。因为你不知道，分发出去的小程序二维码， 有多少被打印到实体物料中。</p>
-				<p>那么，「虚拟路由」+「落地中转」的策略就显得很基本且重要了。</p>
+				<p>在 <strong>「中长生命周期」</strong> 产品中，随着产品的迭代，我们难免会遇到项目的重构。</p>
+				<p>如果分发出去的都是没经过处理的真实路径的话，我们重构时就会束手束脚，要做很多的兼容操作。
+				因为你不知道，分发出去的小程序二维码， 有多少被打印到实体物料中。</p>
+				<p>那么，「虚拟路由」+「落地中转」的策略就显得基本且重要了。</p>
 				<a href="#「虚拟路由」-「落地中转」" id="「虚拟路由」-「落地中转」" style="color: inherit; text-decoration: none;">
 					<h4>「虚拟路由」+ 「落地中转」</h4>
 				</a>
 				<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200817162442.png" alt="普通模式"></p>
 				<p>基本逻辑：</p>
 				<ol>
-					<li>分发出去的真实路由，指向到唯一的落地页面，如：<code>/pages/land-page/idnex</code></li>
+					<li>分发出去的真实路由，指向到唯一的落地页面，如：<code>/pages/land-page/index</code></li>
 					<li>由这个落地页面，进行内部路由的重定向转发，通过接收 参数，如：<code>path=/user&amp;name=jc&amp;age=18</code></li>
 				</ol>
 				<p><code>wxapp-router</code> 提供了 「落地中转器」（LandTransfer）来让你更优雅的处理这种场景：</p>
-				<pre><code class="language-javascript"><span class="hljs-comment">// /pages/land-page/index.ts</span>
+				<pre><code class="language-typescript"><span class="hljs-comment">// /pages/land-page/index.ts</span>
 
 <span class="hljs-keyword">import</span> { LandTransfer } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
 
-<span class="hljs-keyword">const</span> landTransfer = <span class="hljs-keyword">new</span> LandTransfer(LandTransferParams);
+<span class="hljs-keyword">const</span> landTransfer = <span class="hljs-keyword">new</span> LandTransfer(landTransferOptions);
 
 Page({
   <span class="hljs-function"><span class="hljs-title">onLoad</span>(<span class="hljs-params">options</span>)</span> {
@@ -197,6 +198,16 @@ Page({
         .then(<span class="hljs-function">() =&gt;</span> {...})
         .catch(<span class="hljs-function">() =&gt;</span> {...});
   }
+});
+</code></pre>
+				<p>如果你的项目使用了 TS，<code>LandTransfer</code> 还提供了装饰器：</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { landTransferDecorator } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
+
+Page({
+  <span class="hljs-meta">@landTransferDecorator</span>(landTransferOptions)
+  <span class="hljs-function"><span class="hljs-title">onLoad</span>(<span class="hljs-params">options</span>)</span> {
+    <span class="hljs-comment">// ...</span>
+  },
 });
 </code></pre>
 				<a href="#「短链参数」" id="「短链参数」" style="color: inherit; text-decoration: none;">
@@ -211,34 +222,31 @@ Page({
 				<p>但如果我们运营的是一个中大型电商小程序的话，假如：1w 种商品 x 10 种商品规格，那就会超过这个数量。到时候再进行改造，就困难了。</p>
 				<p>所以，如果抱着是运营一个<strong>「中长生命周期」</strong>的产品的话，我们会使用第二种方式：<code>wxacode.getUnlimited</code></p>
 				<p>不尽人意的是，虽然它没有数量限制，但是对参数会有 32 个字符的限制，显然是不够用的（一个 uuid 就 32 字符了）。</p>
-				<p>所以，<code>LandTransfer</code> 提供了「短链参数」功能：</p>
-				<p><code>LandTransfer</code> 定义 scene 参数格式为：<code>sp=abc</code>，其中 <code>abc</code> 的转换，需要开发者通过 <code>onDecodeSceneShortParams</code> 方法自行定义，一般是由后端提供 API 服务。</p>
+				<p><code>LandTransfer</code> 会在同时符合以下情况的时候启用「短链参数」功能：</p>
+				<ol>
+					<li>页面参数中含有 <code>scene</code> 参数;</li>
+					<li><code>new LandTransfer()</code> 设置了 <code>convertSceneParams</code>;</li>
+				</ol>
 				<p>以下提供前端示例代码，以及完整的前后端时序图，供参考。</p>
-				<pre><code class="language-javascript"><span class="hljs-comment">// in /pages/land-page/index.js</span>
+				<pre><code class="language-typescript"><span class="hljs-comment">// in /pages/land-page/index.js</span>
+<span class="hljs-keyword">import</span> { landTransferDecorator } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
 
-<span class="hljs-keyword">import</span> { LandTransfer } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@tencent/retailwe-common-libs-landtransfer&#x27;</span>;
-
-
-<span class="hljs-keyword">const</span> landTransfer = <span class="hljs-keyword">new</span> LandTransfer({
-  <span class="hljs-comment">// 此处接收 scene: sp=abc，中的 sp value</span>
-  <span class="hljs-attr">onDecodeSceneShortParams</span>: <span class="hljs-function">(<span class="hljs-params">sceneSp</span>) =&gt;</span> {
-    <span class="hljs-keyword">return</span> API
-        .decodeSceneSP({ sceneSp })
-        .then(<span class="hljs-function">(<span class="hljs-params">content</span>) =&gt;</span> {
-            <span class="hljs-comment">// 假如后端存的是 JSON 字符串，前端decode</span>
-            <span class="hljs-comment">// 要求 condtent = { path: &#x27;/home&#x27;, a: 1, b:2 }</span>
-            <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.parse(content);
-        })
-  }
-});
+<span class="hljs-keyword">const</span> landTransferOptions = {
+  <span class="hljs-comment">// 此处接收 onLoad(options) 中的 options.scene</span>
+  <span class="hljs-attr">convertSceneParams</span>: <span class="hljs-function">(<span class="hljs-params">sceneParams</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> API.convertScene({ sceneParams }).then(<span class="hljs-function">(<span class="hljs-params">content</span>) =&gt;</span> {
+      <span class="hljs-comment">// 假如后端存的是 JSON 字符串，前端decode</span>
+      <span class="hljs-comment">// 要求 content = { path: &#x27;/home&#x27;, a: 1, b:2 }</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.parse(content);
+    });
+  },
+};
 
 Page({
+  <span class="hljs-meta">@landTransferDecorator</span>(landTransferOptions)
   <span class="hljs-function"><span class="hljs-title">onLoad</span>(<span class="hljs-params">options</span>)</span> {
-    landTransfer
-      .run(options)
-      .then(<span class="hljs-function">() =&gt;</span> {...})
-      .catch(<span class="hljs-function">() =&gt;</span> {...});
-    }
+    <span class="hljs-comment">// ...</span>
+  },
 });
 </code></pre>
 				<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200819112451.png" alt="Scene短链模式"></p>
@@ -246,7 +254,7 @@ Page({
 					<h3>内部路由策略：获取更好的开发体验</h3>
 				</a>
 				<p>对于小程序内部的路由跳转，我们除了指定一个字符串的路由，我们是否也可以通过链式调用，像调用函数那样去跳转页面呢？类似这样；</p>
-				<pre><code class="language-javascript">routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
+				<pre><code class="language-typescript">routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
 </code></pre>
 				<p>这样做的好处是：</p>
 				<ol>
@@ -320,7 +328,7 @@ routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-st
 					<li>提供 <code>gotoPage</code>，实现 <a href="#%E6%99%BA%E8%83%BD%E8%B7%B3%E8%BD%AC%E7%AD%96%E7%95%A5">智能跳转策略</a></li>
 				</ol>
 				<p>你完全可以跳过所有的顶层实现，直接使用 <code>Navigator</code> 进行底层调用：</p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { navigator } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { navigator } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
 
 navigator.gotoPage(<span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
 navigator.navigateTo(<span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
@@ -345,7 +353,7 @@ navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
-				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#104;&#117;&#x61;&#x6e;&#103;&#x6a;&#x65;&#114;&#114;&#121;&#x63;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#104;&#117;&#x61;&#x6e;&#103;&#x6a;&#x65;&#114;&#114;&#121;&#x63;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a>)</p>
+				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#117;&#x61;&#110;&#103;&#x6a;&#101;&#114;&#114;&#x79;&#99;&#x40;&#x67;&#109;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;">&#x68;&#117;&#x61;&#110;&#103;&#x6a;&#101;&#114;&#114;&#x79;&#99;&#x40;&#x67;&#109;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;</a>)</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
