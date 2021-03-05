@@ -82,7 +82,7 @@ router.switchTab('/user', query);
 
 那么，我们可以在 `wxapp-router` 的路由路径中使用 「动态路径参数」(dynamic segment) 来达到这个效果：
 
-```javascript
+```typescript
 import { Router } from 'wxapp-router';
 
 // 创建路由实例
@@ -113,11 +113,12 @@ router.gotoPage('/goods/456');
 
 该设计在实践中存在的弊端：**各个落地页分散，后期修改真实文件路径难度大。**
 
-在**「中长生命周期」**产品中，随着产品的迭代，我们难免会遇到项目的重构。
+在 **「中长生命周期」** 产品中，随着产品的迭代，我们难免会遇到项目的重构。
 
-如果分发出去的都是没经过处理的真实路径的话，为了兼容旧入口，我们重构就会束手束脚，要做更多的兼容动作。因为你不知道，分发出去的小程序二维码， 有多少被打印到实体物料中。
+如果分发出去的都是没经过处理的真实路径的话，我们重构时就会束手束脚，要做很多的兼容操作。
+因为你不知道，分发出去的小程序二维码， 有多少被打印到实体物料中。
 
-那么，「虚拟路由」+「落地中转」的策略就显得很基本且重要了。
+那么，「虚拟路由」+「落地中转」的策略就显得基本且重要了。
 
 #### 「虚拟路由」+ 「落地中转」
 
@@ -125,17 +126,17 @@ router.gotoPage('/goods/456');
 
 基本逻辑：
 
-1. 分发出去的真实路由，指向到唯一的落地页面，如：`/pages/land-page/idnex`
+1. 分发出去的真实路由，指向到唯一的落地页面，如：`/pages/land-page/index`
 2. 由这个落地页面，进行内部路由的重定向转发，通过接收 参数，如：`path=/user&name=jc&age=18`
 
 `wxapp-router` 提供了 「落地中转器」（LandTransfer）来让你更优雅的处理这种场景：
 
-```javascript
+```typescript
 // /pages/land-page/index.ts
 
 import { LandTransfer } from 'wxapp-router';
 
-const landTransfer = new LandTransfer(LandTransferParams);
+const landTransfer = new LandTransfer(landTransferOptions);
 
 Page({
   onLoad(options) {
@@ -144,6 +145,19 @@ Page({
         .then(() => {...})
         .catch(() => {...});
   }
+});
+```
+
+如果你的项目使用了 TS，`LandTransfer` 还提供了装饰器：
+
+```typescript
+import { landTransferDecorator } from 'wxapp-router';
+
+Page({
+  @landTransferDecorator(landTransferOptions)
+  onLoad(options) {
+    // ...
+  },
 });
 ```
 
@@ -162,38 +176,33 @@ Page({
 
 不尽人意的是，虽然它没有数量限制，但是对参数会有 32 个字符的限制，显然是不够用的（一个 uuid 就 32 字符了）。
 
-所以，`LandTransfer` 提供了「短链参数」功能：
+`LandTransfer` 会在同时符合以下情况的时候启用「短链参数」功能：
 
-`LandTransfer` 定义 scene 参数格式为：`sp=abc`，其中 `abc` 的转换，需要开发者通过 `onDecodeSceneShortParams` 方法自行定义，一般是由后端提供 API 服务。
+1. 页面参数中含有 `scene` 参数;
+2. `new LandTransfer()` 设置了 `convertSceneParams`;
 
 以下提供前端示例代码，以及完整的前后端时序图，供参考。
 
-```javascript
+```typescript
 // in /pages/land-page/index.js
+import { landTransferDecorator } from 'wxapp-router';
 
-import { LandTransfer } from '@tencent/retailwe-common-libs-landtransfer';
-
-
-const landTransfer = new LandTransfer({
-  // 此处接收 scene: sp=abc，中的 sp value
-  onDecodeSceneShortParams: (sceneSp) => {
-    return API
-        .decodeSceneSP({ sceneSp })
-        .then((content) => {
-            // 假如后端存的是 JSON 字符串，前端decode
-            // 要求 condtent = { path: '/home', a: 1, b:2 }
-            return JSON.parse(content);
-        })
-  }
-});
+const landTransferOptions = {
+  // 此处接收 onLoad(options) 中的 options.scene
+  convertSceneParams: (sceneParams) => {
+    return API.convertScene({ sceneParams }).then((content) => {
+      // 假如后端存的是 JSON 字符串，前端decode
+      // 要求 content = { path: '/home', a: 1, b:2 }
+      return JSON.parse(content);
+    });
+  },
+};
 
 Page({
+  @landTransferDecorator(landTransferOptions)
   onLoad(options) {
-    landTransfer
-      .run(options)
-      .then(() => {...})
-      .catch(() => {...});
-    }
+    // ...
+  },
 });
 ```
 
@@ -203,7 +212,7 @@ Page({
 
 对于小程序内部的路由跳转，我们除了指定一个字符串的路由，我们是否也可以通过链式调用，像调用函数那样去跳转页面呢？类似这样；
 
-```javascript
+```typescript
 routes.pages.user.go({ name: 'jc' });
 ```
 
@@ -291,7 +300,7 @@ routes.pages.user.go({ name: 'jc' });
 
 你完全可以跳过所有的顶层实现，直接使用 `Navigator` 进行底层调用：
 
-```javascript
+```typescript
 import { navigator } from 'wxapp-router';
 
 navigator.gotoPage('/pages/user/index', { name: 'jc' });
