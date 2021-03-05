@@ -21,3 +21,17 @@ export const obj2Params = (obj = {}, encode = false) => {
 
   return result.join('&');
 };
+
+/**
+ * 将url后的参数string转成object
+ * @param str - query部分参数，如：abc=foo&def=%5Basf%5D&xyz=5
+ */
+export const urlStrToObj = (str: string, urlDeocde = false) => {
+  let cookedStr = urlDeocde ? decodeURIComponent(str) : str;
+
+  cookedStr =
+    '{"' +
+    cookedStr.replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') +
+    '"}';
+  return JSON.parse(cookedStr);
+};
