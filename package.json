@@ -96,6 +96,7 @@
       }
     },
     "files": [
+      "src/test/**/*.spec.*",
       "!build/module/**"
     ]
   },

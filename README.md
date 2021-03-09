@@ -10,7 +10,7 @@
 [![NPM Downloads](https://img.shields.io/npm/dm/wxapp-router.svg?style=for-the-badge)](https://www.npmjs.com/package/wxapp-router)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/mini-logger.svg?style=for-the-badge)
 
-## 动机
+## 一、动机
 
 对于微信小程序原生路由：
 
@@ -19,21 +19,21 @@
 3. 微信路由十层级路由问题、页面死循环问题。
 4. 小程序无限二维码解决方案。（短链参数解析）
 
-## 介绍
+## 二、介绍
 
 1. 虚拟路由，解决小程序对外暴露真实路径的问题。
 1. 动态路由参数。
 1. 智能跳转，解决小程序页面栈十层限制问题，与解决小程序页面死循环问题
 
-## 下载
+## 三、下载
 
 ```shell
 npm install wxapp-router
 ```
 
-## 使用说明
+## 四、使用说明
 
-### 快速使用
+### 4.1 快速使用
 
 ```typescript
 import { Router } from 'wxapp-router';
@@ -61,9 +61,9 @@ router.navigateBack('/user', query);
 router.switchTab('/user', query);
 ```
 
-### 智能跳转策略
+### 4.2 智能跳转策略
 
-当我们使用 `router.gotoPage()` 的时候，`wxapp-router` 会根据一套计算逻辑来确定使用微信小程序路由 API 中的哪一个来实现路由跳转。
+当我们使用 `router.gotoPage()` 的时候，`wxapp-router` 会根据一套计算逻辑来确定使用微信小程序路由 API 中的一个来实现路由跳转。
 
 具体逻辑如下：
 
@@ -74,12 +74,10 @@ router.switchTab('/user', query);
 
 详细代码参考：[navigator.ts/gotoPage](https://github.com/JerryC8080/wxapp-router/blob/ff8db80cbf6ea939509504e3fe6ecec5cecc0790/src/lib/navigator.ts#L39)
 
-### 动态路由匹配
+### 4.3 动态路由匹配
 
-我们经常需要把某种模式匹配到的所有路由，全都映射到同个页面中去。
-
-例如，我们有一个 Goods 页面，对于所有 ID 各不相同的商品，都要使用这个页面来承载。
-
+我们经常需要把某种模式匹配到的所有路由，全都映射到同个页面中去。  
+例如，我们有一个 Goods 页面，对于所有 ID 各不相同的商品，都要使用这个页面来承载。  
 那么，我们可以在 `wxapp-router` 的路由路径中使用 「动态路径参数」(dynamic segment) 来达到这个效果：
 
 ```typescript
@@ -105,22 +103,17 @@ router.gotoPage('/goods/456');
 
 如要学习更高级的路径匹配，参考 `path-to-regexp` 的 [文档 - Parameters 章节](https://github.com/pillarjs/path-to-regexp/tree/v1.7.0#parameters)
 
-### 外部路由策略：「虚拟路由」 + 「落地中转」+ 「短链参数」
+### 4.4 外部路由策略：「虚拟路由」 + 「落地中转」+ 「短链参数」
 
-「外部路由」指的是从小程序外部打开小程序的方式，例如：扫小程序码、公众号菜单、公众号文章等等。
+**「外部路由」** 指的是从小程序外部打开小程序的方式，例如：扫小程序码、公众号菜单、公众号文章等等。
 
-根据小程序的设计，暴露给外部的连接是真实的页面路径，如：`/pages/home/index` 。
+根据小程序的设计，暴露给外部的连接是真实的页面路径，如：`/pages/home/index`，该设计在实践中存在的弊端：**各个落地页分散，后期修改真实文件路径难度大。**
 
-该设计在实践中存在的弊端：**各个落地页分散，后期修改真实文件路径难度大。**
+在 **「中长生命周期」** 产品中，随着产品的迭代，我们难免会遇到项目的重构。如果分发出去的都是没经过处理的真实路径的话，我们重构时就会束手束脚，要做很多的兼容操作。因为你不知道，分发出去的小程序二维码， 有多少被打印到实体物料中。
 
-在 **「中长生命周期」** 产品中，随着产品的迭代，我们难免会遇到项目的重构。
+那么，**「虚拟路由」+「落地中转」** 的策略就显得基本且重要了。
 
-如果分发出去的都是没经过处理的真实路径的话，我们重构时就会束手束脚，要做很多的兼容操作。
-因为你不知道，分发出去的小程序二维码， 有多少被打印到实体物料中。
-
-那么，「虚拟路由」+「落地中转」的策略就显得基本且重要了。
-
-#### 「虚拟路由」+ 「落地中转」
+#### 4.4.1「虚拟路由」+ 「落地中转」
 
 ![普通模式](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200817162442.png)
 
@@ -161,7 +154,15 @@ Page({
 });
 ```
 
+<<<<<<< HEAD
+
 #### 「短链参数」
+
+=======
+
+#### 4.4.2「短链参数」
+
+> > > > > > > release/1.0.0
 
 微信小程序主要提供了两个接口去生成小程序码：
 
@@ -172,7 +173,7 @@ Page({
 
 但如果我们运营的是一个中大型电商小程序的话，假如：1w 种商品 x 10 种商品规格，那就会超过这个数量。到时候再进行改造，就困难了。
 
-所以，如果抱着是运营一个**「中长生命周期」**的产品的话，我们会使用第二种方式：`wxacode.getUnlimited`
+所以，如果抱着是运营一个 **「中长生命周期」** 的产品的话，我们会使用第二种方式：`wxacode.getUnlimited`
 
 不尽人意的是，虽然它没有数量限制，但是对参数会有 32 个字符的限制，显然是不够用的（一个 uuid 就 32 字符了）。
 
@@ -208,7 +209,7 @@ Page({
 
 ![Scene短链模式](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200819112451.png)
 
-### 内部路由策略：获取更好的开发体验
+### 4.5 内部路由策略：获取更好的开发体验
 
 对于小程序内部的路由跳转，我们除了指定一个字符串的路由，我们是否也可以通过链式调用，像调用函数那样去跳转页面呢？类似这样；
 
@@ -269,7 +270,7 @@ routes.pages.user.go({ name: 'jc' });
 
 所以我提供了一个[实例项目]()，在遵循既定的项目结构情况下，支持根据路由配置文件，生成对应的 TS 声明文件。
 
-### 使用自定义组件跳转
+### 4.6 使用自定义组件跳转
 
 `wxapp-router` 提供了一个充作粘合剂的自定义组件 `<Router>` ，让你可以在 wxml 文件中使用：
 
@@ -281,7 +282,7 @@ routes.pages.user.go({ name: 'jc' });
 
 你可以从示例项目中找到该组件的代码：[/example/miniprogram/components/router](https://github.com/JerryC8080/wxapp-router/tree/master/example/miniprogram/components/router)
 
-### 如何组织项目
+### 4.7 如何组织项目
 
 `wxapp-router` 提供了一个示例小程序，来展示实际项目中使用 `wxapp-router` 的最佳姿势，它提供了以下功能；
 
@@ -291,7 +292,7 @@ routes.pages.user.go({ name: 'jc' });
 
 详情请看：[wxapp-router/example](https://github.com/JerryC8080/wxapp-router/tree/master/example)
 
-### 导航器 Navigator
+### 4.8 导航器 Navigator
 
 `wxapp-router` 的跳转逻辑，是由内建的 `Navigator` 提供支持的，它提供了这些功能：
 
@@ -310,7 +311,7 @@ navigator.redirectTo('/pages/user/index', { name: 'jc' });
 navigator.navigateBack({ delta: 1 });
 ```
 
-## 架构设计
+## 五、架构设计
 
 1. Navigator：封装微信原生路由 API，提供智能跳转策略。
 1. LandTransfer：提供落地页中转策略。
@@ -318,11 +319,11 @@ navigator.navigateBack({ delta: 1 });
 1. Router：整合内部各模块，对外提供优雅的调用方式。
 1. Logger：内部日志器。
 
-## More API
+## 六、More API
 
 更多的 API 的使用，详见官网：[wxapp-router](https://jerryc8080.github.io/wxapp-router/)
 
-## License
+## 七、License
 
 This project is licensed under the [MIT license](LICENSE).  
 Copyright (c) JerryC Huang (huangjerryc@gmail.com)

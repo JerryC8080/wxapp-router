@@ -84,7 +84,7 @@ export class Router {
   }
 
   public navigateBack(
-    query: WechatMiniprogram.NavigateBackOption,
+    query: { delta: number },
     option?: { setData: Record<string, unknown> }
   ) {
     return navigator.navigateBack(query, option);
