@@ -311,9 +311,12 @@ navigator.navigateBack({ delta: 1 });
 
 ## 五、架构设计
 
+![架构设计](https://raw.githubusercontent.com/JerryC8080/figure-bed/master/img/20210309235912.png)
+
 1. Navigator：封装微信原生路由 API，提供智能跳转策略。
 1. LandTransfer：提供落地页中转策略。
 1. RouteMatcher：提供动态路由参数匹配功能。
+1. Route: 为每个路径创建路由器。
 1. Router：整合内部各模块，对外提供优雅的调用方式。
 1. Logger：内部日志器。
 
