@@ -115,11 +115,11 @@ router.gotoPage('/goods/456');
 
 #### 4.4.1「虚拟路由」+ 「落地中转」
 
-![普通模式](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200817162442.png)
+![普通模式](https://raw.githubusercontent.com/JerryC8080/figure-bed/master/img/20210309185153.png)
 
 基本逻辑：
 
-1. 分发出去的真实路由，指向到唯一的落地页面，如：`/pages/land-page/index`
+1. 分发出去的真实路由，指向到唯一的落地页面，如：`$LAND_PAGE: /pages/land-page/index`
 2. 由这个落地页面，进行内部路由的重定向转发，通过接收 参数，如：`path=/user&name=jc&age=18`
 
 `wxapp-router` 提供了 「落地中转器」（LandTransfer）来让你更优雅的处理这种场景：
@@ -174,7 +174,9 @@ Page({
 1. 页面参数中含有 `scene` 参数;
 2. `new LandTransfer()` 设置了 `convertSceneParams`;
 
-以下提供前端示例代码，以及完整的前后端时序图，供参考。
+![短链模式](https://raw.githubusercontent.com/JerryC8080/figure-bed/master/img/20210309185154.png)
+
+示例代码：
 
 ```typescript
 // in /pages/land-page/index.js
@@ -198,6 +200,10 @@ Page({
   },
 });
 ```
+
+而其中的 `API.convertScene` 需要服务端提供 HTTP 接口服务来完成。
+
+下面，以「小程序码生成与扫描」的场景为例，展示前后端交互的时序图，仅供参考：
 
 ![Scene短链模式](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200819112451.png)
 
