@@ -75,8 +75,8 @@
 					<a href="https://www.npmjs.com/package/wxapp-router"><img src="https://img.shields.io/npm/v/wxapp-router.svg?style=for-the-badge" alt="NPM Version"></a>
 					<a href="https://www.npmjs.com/package/wxapp-router"><img src="https://img.shields.io/npm/dm/wxapp-router.svg?style=for-the-badge" alt="NPM Downloads"></a>
 				<img src="https://img.shields.io/bundlephobia/minzip/mini-logger.svg?style=for-the-badge" alt="npm bundle size"></p>
-				<a href="#动机" id="动机" style="color: inherit; text-decoration: none;">
-					<h2>动机</h2>
+				<a href="#一、动机" id="一、动机" style="color: inherit; text-decoration: none;">
+					<h2>一、动机</h2>
 				</a>
 				<p>对于微信小程序原生路由：</p>
 				<ol>
@@ -85,24 +85,24 @@
 					<li>微信路由十层级路由问题、页面死循环问题。</li>
 					<li>小程序无限二维码解决方案。（短链参数解析）</li>
 				</ol>
-				<a href="#介绍" id="介绍" style="color: inherit; text-decoration: none;">
-					<h2>介绍</h2>
+				<a href="#二、介绍" id="二、介绍" style="color: inherit; text-decoration: none;">
+					<h2>二、介绍</h2>
 				</a>
 				<ol>
 					<li>虚拟路由，解决小程序对外暴露真实路径的问题。</li>
 					<li>动态路由参数。</li>
 					<li>智能跳转，解决小程序页面栈十层限制问题，与解决小程序页面死循环问题</li>
 				</ol>
-				<a href="#下载" id="下载" style="color: inherit; text-decoration: none;">
-					<h2>下载</h2>
+				<a href="#三、下载" id="三、下载" style="color: inherit; text-decoration: none;">
+					<h2>三、下载</h2>
 				</a>
 				<pre><code class="language-shell">npm install wxapp-router
 </code></pre>
-				<a href="#使用说明" id="使用说明" style="color: inherit; text-decoration: none;">
-					<h2>使用说明</h2>
+				<a href="#四、使用说明" id="四、使用说明" style="color: inherit; text-decoration: none;">
+					<h2>四、使用说明</h2>
 				</a>
-				<a href="#快速使用" id="快速使用" style="color: inherit; text-decoration: none;">
-					<h3>快速使用</h3>
+				<a href="#41-快速使用" id="41-快速使用" style="color: inherit; text-decoration: none;">
+					<h3>4.1 快速使用</h3>
 				</a>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
 
@@ -128,10 +128,10 @@ router.navigateTo(<span class="hljs-string">&#x27;/user&#x27;</span>, query);
 router.navigateBack(<span class="hljs-string">&#x27;/user&#x27;</span>, query);
 router.switchTab(<span class="hljs-string">&#x27;/user&#x27;</span>, query);
 </code></pre>
-				<a href="#智能跳转策略" id="智能跳转策略" style="color: inherit; text-decoration: none;">
-					<h3>智能跳转策略</h3>
+				<a href="#42-智能跳转策略" id="42-智能跳转策略" style="color: inherit; text-decoration: none;">
+					<h3>4.2 智能跳转策略</h3>
 				</a>
-				<p>当我们使用 <code>router.gotoPage()</code> 的时候，<code>wxapp-router</code> 会根据一套计算逻辑来确定使用微信小程序路由 API 中的哪一个来实现路由跳转。</p>
+				<p>当我们使用 <code>router.gotoPage()</code> 的时候，<code>wxapp-router</code> 会根据一套计算逻辑来确定使用微信小程序路由 API 中的一个来实现路由跳转。</p>
 				<p>具体逻辑如下：</p>
 				<ol>
 					<li>当跳转的路由为小程序 tab 页面时，则使用 <code>wx.switchTab</code>。</li>
@@ -140,12 +140,10 @@ router.switchTab(<span class="hljs-string">&#x27;/user&#x27;</span>, query);
 					<li>其他情况使用 <code>wx.navigateTo</code></li>
 				</ol>
 				<p>详细代码参考：<a href="https://github.com/JerryC8080/wxapp-router/blob/ff8db80cbf6ea939509504e3fe6ecec5cecc0790/src/lib/navigator.ts#L39">navigator.ts/gotoPage</a></p>
-				<a href="#动态路由匹配" id="动态路由匹配" style="color: inherit; text-decoration: none;">
-					<h3>动态路由匹配</h3>
+				<a href="#43-动态路由匹配" id="43-动态路由匹配" style="color: inherit; text-decoration: none;">
+					<h3>4.3 动态路由匹配</h3>
 				</a>
-				<p>我们经常需要把某种模式匹配到的所有路由，全都映射到同个页面中去。</p>
-				<p>例如，我们有一个 Goods 页面，对于所有 ID 各不相同的商品，都要使用这个页面来承载。</p>
-				<p>那么，我们可以在 <code>wxapp-router</code> 的路由路径中使用 「动态路径参数」(dynamic segment) 来达到这个效果：</p>
+				<p>我们经常需要把某种模式匹配到的所有路由，全都映射到同个页面中去。<br>例如，我们有一个 Goods 页面，对于所有 ID 各不相同的商品，都要使用这个页面来承载。<br>那么，我们可以在 <code>wxapp-router</code> 的路由路径中使用 「动态路径参数」(dynamic segment) 来达到这个效果：</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Router } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
 
 <span class="hljs-comment">// 创建路由实例</span>
@@ -165,18 +163,15 @@ router.gotoPage(<span class="hljs-string">&#x27;/goods/456&#x27;</span>);
 </code></pre>
 				<p><code>wxapp-router</code> 使用 <a href="https://github.com/pillarjs/path-to-regexp">path-to-regexp</a> 作为路径匹配引擎，以支持更多高级的匹配模式。</p>
 				<p>如要学习更高级的路径匹配，参考 <code>path-to-regexp</code> 的 <a href="https://github.com/pillarjs/path-to-regexp/tree/v1.7.0#parameters">文档 - Parameters 章节</a></p>
-				<a href="#外部路由策略：「虚拟路由」--「落地中转」-「短链参数」" id="外部路由策略：「虚拟路由」--「落地中转」-「短链参数」" style="color: inherit; text-decoration: none;">
-					<h3>外部路由策略：「虚拟路由」 + 「落地中转」+ 「短链参数」</h3>
+				<a href="#44-外部路由策略：「虚拟路由」--「落地中转」-「短链参数」" id="44-外部路由策略：「虚拟路由」--「落地中转」-「短链参数」" style="color: inherit; text-decoration: none;">
+					<h3>4.4 外部路由策略：「虚拟路由」 + 「落地中转」+ 「短链参数」</h3>
 				</a>
-				<p>「外部路由」指的是从小程序外部打开小程序的方式，例如：扫小程序码、公众号菜单、公众号文章等等。</p>
-				<p>根据小程序的设计，暴露给外部的连接是真实的页面路径，如：<code>/pages/home/index</code> 。</p>
-				<p>该设计在实践中存在的弊端：<strong>各个落地页分散，后期修改真实文件路径难度大。</strong></p>
-				<p>在 <strong>「中长生命周期」</strong> 产品中，随着产品的迭代，我们难免会遇到项目的重构。</p>
-				<p>如果分发出去的都是没经过处理的真实路径的话，我们重构时就会束手束脚，要做很多的兼容操作。
-				因为你不知道，分发出去的小程序二维码， 有多少被打印到实体物料中。</p>
-				<p>那么，「虚拟路由」+「落地中转」的策略就显得基本且重要了。</p>
-				<a href="#「虚拟路由」-「落地中转」" id="「虚拟路由」-「落地中转」" style="color: inherit; text-decoration: none;">
-					<h4>「虚拟路由」+ 「落地中转」</h4>
+				<p><strong>「外部路由」</strong> 指的是从小程序外部打开小程序的方式，例如：扫小程序码、公众号菜单、公众号文章等等。</p>
+				<p>根据小程序的设计，暴露给外部的连接是真实的页面路径，如：<code>/pages/home/index</code>，该设计在实践中存在的弊端：<strong>各个落地页分散，后期修改真实文件路径难度大。</strong></p>
+				<p>在 <strong>「中长生命周期」</strong> 产品中，随着产品的迭代，我们难免会遇到项目的重构。如果分发出去的都是没经过处理的真实路径的话，我们重构时就会束手束脚，要做很多的兼容操作。因为你不知道，分发出去的小程序二维码， 有多少被打印到实体物料中。</p>
+				<p>那么，<strong>「虚拟路由」+「落地中转」</strong> 的策略就显得基本且重要了。</p>
+				<a href="#441「虚拟路由」-「落地中转」" id="441「虚拟路由」-「落地中转」" style="color: inherit; text-decoration: none;">
+					<h4>4.4.1「虚拟路由」+ 「落地中转」</h4>
 				</a>
 				<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200817162442.png" alt="普通模式"></p>
 				<p>基本逻辑：</p>
@@ -210,9 +205,29 @@ Page({
   },
 });
 </code></pre>
+				<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
 				<a href="#「短链参数」" id="「短链参数」" style="color: inherit; text-decoration: none;">
 					<h4>「短链参数」</h4>
 				</a>
+				<p>=======</p>
+				<a href="#442「短链参数」" id="442「短链参数」" style="color: inherit; text-decoration: none;">
+					<h4>4.4.2「短链参数」</h4>
+				</a>
+				<blockquote>
+					<blockquote>
+						<blockquote>
+							<blockquote>
+								<blockquote>
+									<blockquote>
+										<blockquote>
+											<p>release/1.0.0</p>
+										</blockquote>
+									</blockquote>
+								</blockquote>
+							</blockquote>
+						</blockquote>
+					</blockquote>
+				</blockquote>
 				<p>微信小程序主要提供了两个接口去生成小程序码：</p>
 				<ol>
 					<li><a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.get.html">wxacode.get</a>: 获取小程序码，适用于需要的码数量较少的业务场景。<strong>通过该接口生成的小程序码，永久有效，数量限制为 100,000</strong> 个</li>
@@ -220,7 +235,7 @@ Page({
 				</ol>
 				<p>第一种方式，<code>wxacode.get</code> 数量限制为 10w 个，虽然量很大了，绝大多数的小程序可能用不到这个量。</p>
 				<p>但如果我们运营的是一个中大型电商小程序的话，假如：1w 种商品 x 10 种商品规格，那就会超过这个数量。到时候再进行改造，就困难了。</p>
-				<p>所以，如果抱着是运营一个<strong>「中长生命周期」</strong>的产品的话，我们会使用第二种方式：<code>wxacode.getUnlimited</code></p>
+				<p>所以，如果抱着是运营一个 <strong>「中长生命周期」</strong> 的产品的话，我们会使用第二种方式：<code>wxacode.getUnlimited</code></p>
 				<p>不尽人意的是，虽然它没有数量限制，但是对参数会有 32 个字符的限制，显然是不够用的（一个 uuid 就 32 字符了）。</p>
 				<p><code>LandTransfer</code> 会在同时符合以下情况的时候启用「短链参数」功能：</p>
 				<ol>
@@ -250,8 +265,8 @@ Page({
 });
 </code></pre>
 				<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200819112451.png" alt="Scene短链模式"></p>
-				<a href="#内部路由策略：获取更好的开发体验" id="内部路由策略：获取更好的开发体验" style="color: inherit; text-decoration: none;">
-					<h3>内部路由策略：获取更好的开发体验</h3>
+				<a href="#45-内部路由策略：获取更好的开发体验" id="45-内部路由策略：获取更好的开发体验" style="color: inherit; text-decoration: none;">
+					<h3>4.5 内部路由策略：获取更好的开发体验</h3>
 				</a>
 				<p>对于小程序内部的路由跳转，我们除了指定一个字符串的路由，我们是否也可以通过链式调用，像调用函数那样去跳转页面呢？类似这样；</p>
 				<pre><code class="language-typescript">routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
@@ -300,8 +315,8 @@ routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-st
 </code></pre>
 				<p>如果路由变多的时候，我们还需要手动去编写 <code>RoutesType</code> 的话，就有点难受了。</p>
 				<p>所以我提供了一个<a href="">实例项目</a>，在遵循既定的项目结构情况下，支持根据路由配置文件，生成对应的 TS 声明文件。</p>
-				<a href="#使用自定义组件跳转" id="使用自定义组件跳转" style="color: inherit; text-decoration: none;">
-					<h3>使用自定义组件跳转</h3>
+				<a href="#46-使用自定义组件跳转" id="46-使用自定义组件跳转" style="color: inherit; text-decoration: none;">
+					<h3>4.6 使用自定义组件跳转</h3>
 				</a>
 				<p><code>wxapp-router</code> 提供了一个充作粘合剂的自定义组件 <code>&lt;Router&gt;</code> ，让你可以在 wxml 文件中使用：</p>
 				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/pageA&quot;</span> <span class="hljs-attr">query</span>=<span class="hljs-string">&quot;{{pageAQuery}}&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Router</span>&gt;</span>
@@ -309,8 +324,8 @@ routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-st
 <span class="hljs-tag">&lt;<span class="hljs-name">Router</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/pageC/katy&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Router</span>&gt;</span>
 </code></pre>
 				<p>你可以从示例项目中找到该组件的代码：<a href="https://github.com/JerryC8080/wxapp-router/tree/master/example/miniprogram/components/router">/example/miniprogram/components/router</a></p>
-				<a href="#如何组织项目" id="如何组织项目" style="color: inherit; text-decoration: none;">
-					<h3>如何组织项目</h3>
+				<a href="#47-如何组织项目" id="47-如何组织项目" style="color: inherit; text-decoration: none;">
+					<h3>4.7 如何组织项目</h3>
 				</a>
 				<p><code>wxapp-router</code> 提供了一个示例小程序，来展示实际项目中使用 <code>wxapp-router</code> 的最佳姿势，它提供了以下功能；</p>
 				<ol>
@@ -319,8 +334,8 @@ routes.pages.user.go({ <span class="hljs-attr">name</span>: <span class="hljs-st
 					<li>根据 <code>app.json</code> 自动生成路由配置文件。</li>
 				</ol>
 				<p>详情请看：<a href="https://github.com/JerryC8080/wxapp-router/tree/master/example">wxapp-router/example</a></p>
-				<a href="#导航器-navigator" id="导航器-navigator" style="color: inherit; text-decoration: none;">
-					<h3>导航器 Navigator</h3>
+				<a href="#48-导航器-navigator" id="48-导航器-navigator" style="color: inherit; text-decoration: none;">
+					<h3>4.8 导航器 Navigator</h3>
 				</a>
 				<p><code>wxapp-router</code> 的跳转逻辑，是由内建的 <code>Navigator</code> 提供支持的，它提供了这些功能：</p>
 				<ol>
@@ -336,8 +351,8 @@ navigator.switchTab(<span class="hljs-string">&#x27;/pages/user/index&#x27;</spa
 navigator.redirectTo(<span class="hljs-string">&#x27;/pages/user/index&#x27;</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jc&#x27;</span> });
 navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs-number">1</span> });
 </code></pre>
-				<a href="#架构设计" id="架构设计" style="color: inherit; text-decoration: none;">
-					<h2>架构设计</h2>
+				<a href="#五、架构设计" id="五、架构设计" style="color: inherit; text-decoration: none;">
+					<h2>五、架构设计</h2>
 				</a>
 				<ol>
 					<li>Navigator：封装微信原生路由 API，提供智能跳转策略。</li>
@@ -346,14 +361,14 @@ navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs
 					<li>Router：整合内部各模块，对外提供优雅的调用方式。</li>
 					<li>Logger：内部日志器。</li>
 				</ol>
-				<a href="#more-api" id="more-api" style="color: inherit; text-decoration: none;">
-					<h2>More API</h2>
+				<a href="#六、more-api" id="六、more-api" style="color: inherit; text-decoration: none;">
+					<h2>六、More API</h2>
 				</a>
 				<p>更多的 API 的使用，详见官网：<a href="https://jerryc8080.github.io/wxapp-router/">wxapp-router</a></p>
-				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
-					<h2>License</h2>
+				<a href="#七、license" id="七、license" style="color: inherit; text-decoration: none;">
+					<h2>七、License</h2>
 				</a>
-				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#117;&#x61;&#110;&#103;&#x6a;&#101;&#114;&#114;&#x79;&#99;&#x40;&#x67;&#109;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;">&#x68;&#117;&#x61;&#110;&#103;&#x6a;&#101;&#114;&#114;&#x79;&#99;&#x40;&#x67;&#109;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;</a>)</p>
+				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#117;&#97;&#110;&#103;&#106;&#x65;&#114;&#x72;&#x79;&#x63;&#x40;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#x68;&#117;&#97;&#110;&#103;&#106;&#x65;&#114;&#x72;&#x79;&#x63;&#x40;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a>)</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -370,7 +385,13 @@ navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs
 						<a href="enums/pathtype.html" class="tsd-kind-icon">Path<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/landtransfer.html" class="tsd-kind-icon">Land<wbr>Transfer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/navigator.html" class="tsd-kind-icon">Navigator</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/page.html" class="tsd-kind-icon">Page</a>
 					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/route.html" class="tsd-kind-icon">Route</a>
@@ -385,6 +406,9 @@ navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs
 						<a href="interfaces/commonparams.html" class="tsd-kind-icon">Common<wbr>Params</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/landtransferoptions.html" class="tsd-kind-icon">Land<wbr>Transfer<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/registeroption.html" class="tsd-kind-icon">Register<wbr>Option</a>
 					</li>
 					<li class=" tsd-kind-variable">
@@ -394,6 +418,9 @@ navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs
 						<a href="globals.html#navigator" class="tsd-kind-icon">navigator</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#landtransferdecorator" class="tsd-kind-icon">land<wbr>Transfer<wbr>Decorator</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#obj2params" class="tsd-kind-icon">obj2<wbr>Params</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -401,6 +428,15 @@ navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#setter" class="tsd-kind-icon">setter</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#urlstrtoobj" class="tsd-kind-icon">url<wbr>Str<wbr>ToObj</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#callasfail" class="tsd-kind-icon">call<wbr>AsFail</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#callassuccess" class="tsd-kind-icon">call<wbr>AsSuccess</a>
 					</li>
 				</ul>
 			</nav>

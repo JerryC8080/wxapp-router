@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CommonParams | wxapp-router</title>
+	<title>LandTransferOptions | wxapp-router</title>
 	<meta name="description" content="Documentation for wxapp-router">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="commonparams.html">CommonParams</a>
+					<a href="landtransferoptions.html">LandTransferOptions</a>
 				</li>
 			</ul>
-			<h1>Interface CommonParams</h1>
+			<h1>Interface LandTransferOptions</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">CommonParams</span>
+						<span class="target">LandTransferOptions</span>
 					</li>
 				</ul>
 			</section>
@@ -81,8 +81,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="commonparams.html#path" class="tsd-kind-icon">path</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="commonparams.html#query" class="tsd-kind-icon">query</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="landtransferoptions.html#convertsceneparams" class="tsd-kind-icon">convert<wbr>Scene<wbr>Params</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="landtransferoptions.html#gotopage" class="tsd-kind-icon">goto<wbr>Page</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="landtransferoptions.html#router" class="tsd-kind-icon">router</a></li>
 							</ul>
 						</section>
 					</div>
@@ -91,22 +92,77 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="path" class="tsd-anchor"></a>
-					<h3>path</h3>
-					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><a href="../enums/pathtype.html" class="tsd-signature-type">PathType</a><span class="tsd-signature-symbol"> }</span></div>
+					<a name="convertsceneparams" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> convert<wbr>Scene<wbr>Params</h3>
+					<div class="tsd-signature tsd-kind-icon">convert<wbr>Scene<wbr>Params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>sceneSp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JerryC8080/wxapp-router/blob/87e8a14/src/lib/navigator.ts#L5">lib/navigator.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/JerryC8080/wxapp-router/blob/87e8a14/src/lib/land-transfer.ts#L11">lib/land-transfer.ts:11</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>sceneSp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>sceneSp: <span class="tsd-signature-type">string</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="query" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> query</h3>
-					<div class="tsd-signature tsd-kind-icon">query<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<a name="gotopage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> goto<wbr>Page</h3>
+					<div class="tsd-signature tsd-kind-icon">goto<wbr>Page<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CommonParams</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"path"</span><span class="tsd-signature-symbol">]</span>, query<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CommonParams</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"query"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JerryC8080/wxapp-router/blob/87e8a14/src/lib/navigator.ts#L6">lib/navigator.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/JerryC8080/wxapp-router/blob/87e8a14/src/lib/land-transfer.ts#L14">lib/land-transfer.ts:14</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CommonParams</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"path"</span><span class="tsd-signature-symbol">]</span>, query<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CommonParams</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"query"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>path: <span class="tsd-signature-type">CommonParams</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"path"</span><span class="tsd-signature-symbol">]</span></h5>
+											</li>
+											<li>
+												<h5>query: <span class="tsd-signature-type">CommonParams</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"query"</span><span class="tsd-signature-symbol">]</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="router" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> router</h3>
+					<div class="tsd-signature tsd-kind-icon">router<span class="tsd-signature-symbol">:</span> <a href="../classes/router.html" class="tsd-signature-type">Router</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/JerryC8080/wxapp-router/blob/87e8a14/src/lib/land-transfer.ts#L20">lib/land-transfer.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -143,24 +199,27 @@
 					<li class=" tsd-kind-class">
 						<a href="../classes/router.html" class="tsd-kind-icon">Router</a>
 					</li>
+					<li class=" tsd-kind-interface">
+						<a href="commonparams.html" class="tsd-kind-icon">Common<wbr>Params</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="commonparams.html" class="tsd-kind-icon">Common<wbr>Params</a>
+						<a href="landtransferoptions.html" class="tsd-kind-icon">Land<wbr>Transfer<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="commonparams.html#path" class="tsd-kind-icon">path</a>
+								<a href="landtransferoptions.html#convertsceneparams" class="tsd-kind-icon">convert<wbr>Scene<wbr>Params</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="commonparams.html#query" class="tsd-kind-icon">query</a>
+								<a href="landtransferoptions.html#gotopage" class="tsd-kind-icon">goto<wbr>Page</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="landtransferoptions.html#router" class="tsd-kind-icon">router</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface">
-						<a href="landtransferoptions.html" class="tsd-kind-icon">Land<wbr>Transfer<wbr>Options</a>
-					</li>
 					<li class=" tsd-kind-interface">
 						<a href="registeroption.html" class="tsd-kind-icon">Register<wbr>Option</a>
 					</li>
