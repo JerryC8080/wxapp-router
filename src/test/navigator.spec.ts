@@ -31,7 +31,7 @@ test.serial('gotoPage', async (t) => {
   }
 
   {
-    pages.push(new Page(url));
+    pages.push(new Page({ route: url }));
     Array(7)
       .fill('')
       .forEach(() => pages.push(new Page()));
