@@ -173,10 +173,10 @@ router.gotoPage(<span class="hljs-string">&#x27;/goods/456&#x27;</span>);
 				<a href="#441「虚拟路由」-「落地中转」" id="441「虚拟路由」-「落地中转」" style="color: inherit; text-decoration: none;">
 					<h4>4.4.1「虚拟路由」+ 「落地中转」</h4>
 				</a>
-				<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200817162442.png" alt="普通模式"></p>
+				<p><img src="https://raw.githubusercontent.com/JerryC8080/figure-bed/master/img/20210309185153.png" alt="普通模式"></p>
 				<p>基本逻辑：</p>
 				<ol>
-					<li>分发出去的真实路由，指向到唯一的落地页面，如：<code>/pages/land-page/index</code></li>
+					<li>分发出去的真实路由，指向到唯一的落地页面，如：<code>$LAND_PAGE: /pages/land-page/index</code></li>
 					<li>由这个落地页面，进行内部路由的重定向转发，通过接收 参数，如：<code>path=/user&amp;name=jc&amp;age=18</code></li>
 				</ol>
 				<p><code>wxapp-router</code> 提供了 「落地中转器」（LandTransfer）来让你更优雅的处理这种场景：</p>
@@ -222,7 +222,8 @@ Page({
 					<li>页面参数中含有 <code>scene</code> 参数;</li>
 					<li><code>new LandTransfer()</code> 设置了 <code>convertSceneParams</code>;</li>
 				</ol>
-				<p>以下提供前端示例代码，以及完整的前后端时序图，供参考。</p>
+				<p><img src="https://raw.githubusercontent.com/JerryC8080/figure-bed/master/img/20210309185154.png" alt="短链模式"></p>
+				<p>示例代码：</p>
 				<pre><code class="language-typescript"><span class="hljs-comment">// in /pages/land-page/index.js</span>
 <span class="hljs-keyword">import</span> { landTransferDecorator } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;wxapp-router&#x27;</span>;
 
@@ -244,7 +245,9 @@ Page({
   },
 });
 </code></pre>
-				<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200819112451.png" alt="Scene短链模式"></p>
+				<p>而其中的 <code>API.convertScene</code> 需要服务端提供 HTTP 接口服务来完成。</p>
+				<p>下面，以「小程序码生成与扫描」的场景为例，展示前后端交互的时序图，仅供参考：</p>
+				<p><img src="https://raw.githubusercontent.com/JerryC8080/figure-bed/master/img/20210312182826.png" alt="Scene短链模式"></p>
 				<a href="#45-内部路由策略：获取更好的开发体验" id="45-内部路由策略：获取更好的开发体验" style="color: inherit; text-decoration: none;">
 					<h3>4.5 内部路由策略：获取更好的开发体验</h3>
 				</a>
@@ -334,10 +337,12 @@ navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs
 				<a href="#五、架构设计" id="五、架构设计" style="color: inherit; text-decoration: none;">
 					<h2>五、架构设计</h2>
 				</a>
+				<p><img src="https://raw.githubusercontent.com/JerryC8080/figure-bed/master/img/20210309235912.png" alt="架构设计"></p>
 				<ol>
 					<li>Navigator：封装微信原生路由 API，提供智能跳转策略。</li>
 					<li>LandTransfer：提供落地页中转策略。</li>
 					<li>RouteMatcher：提供动态路由参数匹配功能。</li>
+					<li>Route: 为每个路径创建路由器。</li>
 					<li>Router：整合内部各模块，对外提供优雅的调用方式。</li>
 					<li>Logger：内部日志器。</li>
 				</ol>
@@ -348,7 +353,7 @@ navigator.navigateBack({ <span class="hljs-attr">delta</span>: <span class="hljs
 				<a href="#七、license" id="七、license" style="color: inherit; text-decoration: none;">
 					<h2>七、License</h2>
 				</a>
-				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#104;&#117;&#97;&#x6e;&#103;&#x6a;&#101;&#114;&#114;&#121;&#99;&#x40;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#109;">&#104;&#117;&#97;&#x6e;&#103;&#x6a;&#101;&#114;&#114;&#121;&#99;&#x40;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#109;</a>)</p>
+				<p>This project is licensed under the <a href="LICENSE">MIT license</a>.<br>Copyright (c) JerryC Huang (<a href="mailto:&#x68;&#x75;&#x61;&#x6e;&#x67;&#x6a;&#x65;&#x72;&#x72;&#x79;&#x63;&#64;&#103;&#x6d;&#97;&#x69;&#108;&#46;&#x63;&#111;&#109;">&#x68;&#x75;&#x61;&#x6e;&#x67;&#x6a;&#x65;&#x72;&#x72;&#x79;&#x63;&#64;&#103;&#x6d;&#97;&#x69;&#108;&#46;&#x63;&#111;&#109;</a>)</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
