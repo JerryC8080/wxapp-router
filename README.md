@@ -205,7 +205,7 @@ Page({
 
 下面，以「小程序码生成与扫描」的场景为例，展示前后端交互的时序图，仅供参考：
 
-![Scene短链模式](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/img/20200819112451.png)
+![Scene短链模式](https://raw.githubusercontent.com/JerryC8080/figure-bed/master/img/20210312182826.png)
 
 ### 4.5 内部路由策略：获取更好的开发体验
 
