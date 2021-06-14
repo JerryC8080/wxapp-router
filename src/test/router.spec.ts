@@ -19,6 +19,7 @@ test('Router', (t) => {
     { path: '/home', route: '/pages/home/index' },
     { path: '/user/:id', route: '/pages/user/index' },
     { path: '/:type/:id', route: '/pages/common/index' },
+    { path: '/pageA', route: { path: '/pages/pageA/index', type: 'tab' } },
   ];
 
   router.batchRegister(routesOption);
@@ -43,6 +44,10 @@ test('Router', (t) => {
 
   t.is(result4.pathOrRoute, routesOption[0].route);
   t.deepEqual(result4.query, { name: 'jc' });
+
+  const result5 = router.gotoPage('/pageA', { name: 'pageA' });
+  t.is(result5.pathOrRoute, routesOption[3].route);
+  t.deepEqual(result5.query, { name: 'pageA' });
 });
 
 test.after(() => {

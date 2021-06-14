@@ -5,7 +5,7 @@ import RouteMatcher from './route-matcher';
 import { setter } from './utils';
 
 export interface RegisterOption {
-  route: string;
+  route: CommonParams['path'];
   path?: string;
 }
 
@@ -14,7 +14,9 @@ export class Router {
   private routeMatchers: Array<RouteMatcher> = [];
 
   public register<QueryType>(option: RegisterOption) {
-    const tiers = option.route
+    const route =
+      typeof option.route === 'string' ? option.route : option.route.path;
+    const tiers = route
       .replace(/^\//, '')
       .replace(/$\//, '')
       .split('/')
