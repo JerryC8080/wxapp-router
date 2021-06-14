@@ -1,7 +1,7 @@
-import navigator from './navigator';
+import navigator, { CommonParams } from './navigator';
 
 export class Route<QueryType> {
-  private routeUrl: string;
+  private routeUrl: string | CommonParams['path'];
 
   constructor({ routeUrl }) {
     this.routeUrl = routeUrl;
